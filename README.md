@@ -14,3 +14,9 @@ Edit the text in `script.js` inside the `config` object.
 ## Run locally
 
 Open `index.html` in a browser. For best results, use a local web server so images load reliably.
+
+## Live Server (VS Code)
+
+1) Install the "Live Server" extension.
+2) Right-click `index.html` and choose "Open with Live Server".
+3) Edit files and the browser will auto-refresh.
