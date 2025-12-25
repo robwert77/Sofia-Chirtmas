@@ -613,6 +613,64 @@ const setupEventListeners = () => {
       }
     });
   }
+
+  // Modal delete
+  const modalDelete = byId("modalDelete");
+  if (modalDelete) {
+    modalDelete.addEventListener("click", () => {
+      if (currentModalPhoto) {
+        // Confirm deletion
+        if (confirm("Are you sure you want to delete this photo? This cannot be undone.")) {
+          // Remove from photos array
+          const photoIndex = photos.findIndex((p) => p.id === currentModalPhoto.id);
+          if (photoIndex !== -1) {
+            photos.splice(photoIndex, 1);
+            saveData();
+            closeModal();
+            filterAndSortPhotos();
+            renderGallery();
+            renderSpotlight();
+            updateStats();
+          }
+        }
+      }
+    });
+  }
+
+  // Photo upload
+  const photoUpload = byId("photoUpload");
+  if (photoUpload) {
+    photoUpload.addEventListener("change", (e) => {
+      const files = e.target.files;
+      if (files && files.length > 0) {
+        Array.from(files).forEach((file) => {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const newPhoto = {
+              src: event.target.result,
+              caption: "Uploaded Memory",
+              date: new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
+              dateSort: new Date(),
+              tags: [],
+              note: "",
+              isFavorite: false,
+              id: `upload-${Date.now()}-${Math.random()}`,
+            };
+            
+            photos.unshift(newPhoto);
+            saveData();
+            updateStats();
+            filterAndSortPhotos();
+            renderGallery();
+            renderSpotlight();
+          };
+          reader.readAsDataURL(file);
+        });
+        // Clear input so same file can be selected again if needed
+        photoUpload.value = "";
+      }
+    });
+  }
 };
 
 // Initialize

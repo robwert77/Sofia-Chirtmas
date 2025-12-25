@@ -114,6 +114,10 @@
         </div>
         <div class="chip-row" id="tagFilters"></div>
         <div class="controls-actions">
+          <label class="chip upload-btn">
+            Upload photo
+            <input type="file" id="photoUpload" accept="image/*" multiple hidden>
+          </label>
           <button class="chip" id="toggleSort" type="button">Newest first</button>
           <button class="chip" id="clearFilters" type="button">Clear filters</button>
         </div>
@@ -160,6 +164,7 @@
           <div class="modal__actions">
             <button class="chip" id="saveNote" type="button">Save note</button>
             <button class="chip" id="modalFavorite" type="button">Add to favorites</button>
+            <button class="chip chip--danger" id="modalDelete" type="button">Delete photo</button>
           </div>
         </div>
       </div>

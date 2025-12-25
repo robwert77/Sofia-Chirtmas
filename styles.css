@@ -707,3 +707,13 @@ body.view-moodboard .memory-card:hover {
     transition: none !important;
   }
 }
+
+.upload-btn {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+
+.upload-btn input {
+  display: none;
+}
