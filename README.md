@@ -20,3 +20,9 @@ Open `index.html` in a browser. For best results, use a local web server so imag
 1) Install the "Live Server" extension.
 2) Right-click `index.html` and choose "Open with Live Server".
 3) Edit files and the browser will auto-refresh.
+
+## GitHub Pages
+
+This repo auto-deploys on pushes to `main`.
+After the first workflow run, your site will be at:
+`https://robwert77.github.io/Sofia-Chirtmas/`
