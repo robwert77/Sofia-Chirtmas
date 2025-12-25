@@ -7,39 +7,132 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="backdrop">
-      <span class="ornament ornament--one"></span>
-      <span class="ornament ornament--two"></span>
-      <span class="ornament ornament--three"></span>
-      <span class="ornament ornament--four"></span>
+    <div class="ambient" aria-hidden="true">
+      <span class="ambient__shape ambient__shape--one"></span>
+      <span class="ambient__shape ambient__shape--two"></span>
+      <span class="ambient__shape ambient__shape--three"></span>
+      <span class="ambient__shape ambient__shape--four"></span>
     </div>
 
-    <main class="page">
-      <header class="hero">
-        <p class="eyebrow" id="eyebrow">Holiday Memories</p>
-        <h1 id="title">Merry Christmas, Sofia</h1>
-        <p class="subtitle" id="subtitle">
-          A cozy collage of our favorite moments together.
-        </p>
-        <div class="signature" id="signature">With love, Rob</div>
-      </header>
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand__badge">S</div>
+        <div class="brand__text">
+          <p class="eyebrow" id="eyebrow">Holiday Memories</p>
+          <h1 class="brand__title" id="title">Merry Christmas, Sofia</h1>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="chip" id="toggleFavorites" type="button" aria-pressed="false">
+          Favorites
+        </button>
+        <button class="chip" id="toggleView" type="button">
+          Moodboard view
+        </button>
+        <button class="button-primary" id="shuffleSpotlight" type="button">
+          Shuffle memory
+        </button>
+      </div>
+    </header>
 
-      <section class="note">
-        <div class="note__inner">
+    <main class="app">
+      <section class="hero-card">
+        <div class="hero-card__copy">
+          <p class="subtitle" id="subtitle">
+            A cozy collage of our favorite moments together.
+          </p>
+          <div class="signature" id="signature">With love, Rob</div>
+          <div class="stats">
+            <div class="stat">
+              <span class="stat__value" id="statTotal">0</span>
+              <span class="stat__label">Photos</span>
+            </div>
+            <div class="stat">
+              <span class="stat__value" id="statFavorites">0</span>
+              <span class="stat__label">Favorites</span>
+            </div>
+            <div class="stat">
+              <span class="stat__value" id="statMoments">0</span>
+              <span class="stat__label">Moments</span>
+            </div>
+            <div class="stat">
+              <span class="stat__value" id="statCollections">0</span>
+              <span class="stat__label">Collections</span>
+            </div>
+          </div>
+        </div>
+        <div class="note-card">
           <h2 id="noteTitle">Why this collage</h2>
           <p id="noteBody">
             Every photo is a little reminder that the best part of every season
             is you.
           </p>
+          <div class="note-card__footer">
+            <span class="pill">Live on the web</span>
+          </div>
         </div>
       </section>
 
-      <section class="collage" aria-label="Christmas collage">
-        <div class="collage-grid" id="collageGrid"></div>
+      <section class="spotlight" aria-label="Spotlight memory">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Spotlight</p>
+            <h2 class="section-title">Memory of the moment</h2>
+          </div>
+          <button class="chip" id="spotlightOpen" type="button">
+            Open details
+          </button>
+        </div>
+        <div class="spotlight-card" id="spotlightCard">
+          <div class="spotlight-media">
+            <img id="spotlightImage" alt="" loading="lazy" />
+            <button class="love-button" id="spotlightLike" type="button" aria-pressed="false">
+              <span class="love-button__icon" aria-hidden="true"></span>
+              <span class="sr-only">Toggle favorite</span>
+            </button>
+          </div>
+          <div class="spotlight-body">
+            <div class="tag-row" id="spotlightTags"></div>
+            <h3 id="spotlightCaption"></h3>
+            <p class="spotlight-date" id="spotlightDate"></p>
+            <p class="spotlight-note" id="spotlightNote">
+              Tap a photo to add a note.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="controls" aria-label="Gallery controls">
+        <div class="search">
+          <label class="sr-only" for="searchInput">Search memories</label>
+          <input
+            id="searchInput"
+            type="search"
+            placeholder="Search memories, tags, dates..."
+            autocomplete="off"
+          />
+        </div>
+        <div class="chip-row" id="tagFilters"></div>
+        <div class="controls-actions">
+          <button class="chip" id="toggleSort" type="button">Newest first</button>
+          <button class="chip" id="clearFilters" type="button">Clear filters</button>
+        </div>
+      </section>
+
+      <section class="gallery" aria-label="Memory gallery">
+        <div class="gallery-grid" id="galleryGrid"></div>
+        <div class="gallery-empty" id="galleryEmpty" hidden>
+          No memories match this filter yet.
+        </div>
       </section>
 
       <section class="highlights" aria-label="Favorite highlights">
-        <h2 class="section-title">Our favorite chapters</h2>
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Highlights</p>
+            <h2 class="section-title">Our favorite chapters</h2>
+          </div>
+        </div>
         <div class="highlight-grid" id="highlightGrid"></div>
       </section>
 
@@ -51,19 +144,25 @@
       </section>
     </main>
 
-    <div class="snow" aria-hidden="true">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
+    <div class="modal" id="photoModal" aria-hidden="true">
+      <div class="modal__overlay" data-modal-close="true"></div>
+      <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="modalCaption">
+        <button class="modal__close" id="closeModal" type="button">Close</button>
+        <div class="modal__media">
+          <img id="modalImage" alt="" loading="lazy" />
+        </div>
+        <div class="modal__content">
+          <div class="tag-row" id="modalTags"></div>
+          <h3 id="modalCaption"></h3>
+          <p class="modal__date" id="modalDate"></p>
+          <label class="note-label" for="modalNote">Add a note</label>
+          <textarea id="modalNote" rows="4" placeholder="Write something sweet..."></textarea>
+          <div class="modal__actions">
+            <button class="chip" id="saveNote" type="button">Save note</button>
+            <button class="chip" id="modalFavorite" type="button">Add to favorites</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script src="script.js"></script>

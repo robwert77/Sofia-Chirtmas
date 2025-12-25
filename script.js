@@ -10,68 +10,162 @@ const config = {
     "Here is to more cocoa nights, more adventures, and a hundred more Christmases together.",
 };
 
-const photos = [
-  {
-    src: "assets/photos/01.jpg",
-    caption: "Snowy walk, warm hands.",
-    date: "Dec 2023",
-  },
-  {
-    src: "assets/photos/02.jpg",
-    caption: "Our first holiday tree together.",
-    date: "Dec 2022",
-  },
-  {
-    src: "assets/photos/03.jpg",
-    caption: "Cocoa night and a movie marathon.",
-    date: "Jan 2023",
-  },
-  {
-    src: "assets/photos/04.jpg",
-    caption: "The night we laughed until midnight.",
-    date: "Feb 2023",
-  },
-  {
-    src: "assets/photos/05.jpg",
-    caption: "That cozy cabin weekend.",
-    date: "Mar 2023",
-  },
-  {
-    src: "assets/photos/06.jpg",
-    caption: "Matching scarves kind of day.",
-    date: "Apr 2023",
-  },
-  {
-    src: "assets/photos/07.jpg",
-    caption: "City lights and your smile.",
-    date: "May 2023",
-  },
-  {
-    src: "assets/photos/08.jpg",
-    caption: "The sunset we never wanted to end.",
-    date: "Jun 2023",
-  },
-  {
-    src: "assets/photos/09.jpg",
-    caption: "Picnic blanket, endless conversations.",
-    date: "Jul 2023",
-  },
-  {
-    src: "assets/photos/10.jpg",
-    caption: "Our little weekend getaway.",
-    date: "Aug 2023",
-  },
-  {
-    src: "assets/photos/11.jpg",
-    caption: "That rainy day cafe stop.",
-    date: "Sep 2023",
-  },
-  {
-    src: "assets/photos/12.jpg",
-    caption: "Favorite sweater weather moment.",
-    date: "Oct 2023",
-  },
+// Get all photo files from the assets/photos directory
+const photoFiles = [
+  "IMG-20250727-WA0000.jpg",
+  "IMG-20250727-WA0001.jpg",
+  "IMG-20250727-WA0002.jpg",
+  "IMG-20250727-WA0003.jpg",
+  "IMG-20250727-WA0004.jpg",
+  "IMG-20250727-WA0005.jpg",
+  "IMG-20250727-WA0006.jpg",
+  "IMG-20250727-WA0007.jpg",
+  "IMG-20250727-WA0008.jpg",
+  "IMG-20250727-WA0009.jpg",
+  "IMG-20250727-WA0010.jpg",
+  "IMG-20250727-WA0011.jpg",
+  "IMG-20250727-WA0012.jpg",
+  "IMG-20250727-WA0013.jpg",
+  "IMG-20250727-WA0014.jpg",
+  "IMG-20250727-WA0015.jpg",
+  "IMG-20250727-WA0016.jpg",
+  "IMG-20250727-WA0017.jpg",
+  "IMG-20250727-WA0018.jpg",
+  "IMG-20250727-WA0019.jpg",
+  "IMG-20250727-WA0020.jpg",
+  "IMG-20250727-WA0021.jpg",
+  "IMG-20250727-WA0022.jpg",
+  "IMG-20250727-WA0023.jpg",
+  "IMG-20250727-WA0024.jpg",
+  "IMG-20250727-WA0025.jpg",
+  "IMG-20250727-WA0026.jpg",
+  "IMG-20250727-WA0027.jpg",
+  "IMG-20250727-WA0028.jpg",
+  "IMG-20250727-WA0029.jpg",
+  "IMG-20250727-WA0030.jpg",
+  "IMG-20250727-WA0031.jpg",
+  "IMG-20250727-WA0032.jpg",
+  "IMG-20250727-WA0033.jpg",
+  "IMG-20250727-WA0034.jpg",
+  "IMG-20250727-WA0035.jpg",
+  "IMG-20250727-WA0036.jpg",
+  "IMG-20250727-WA0037.jpg",
+  "IMG-20250727-WA0038.jpg",
+  "IMG-20250727-WA0039.jpg",
+  "IMG-20250727-WA0040.jpg",
+  "IMG-20250727-WA0041.jpg",
+  "IMG-20250727-WA0042.jpg",
+  "IMG-20250727-WA0043.jpg",
+  "IMG-20250727-WA0044.jpg",
+  "IMG-20250727-WA0045.jpg",
+  "IMG-20250728-WA0006.jpg",
+  "IMG-20250728-WA0007.jpg",
+  "IMG-20250728-WA0008.jpg",
+  "IMG-20250728-WA0009.jpg",
+  "IMG-20250728-WA0010.jpg",
+  "IMG-20250728-WA0011.jpg",
+  "IMG-20250728-WA0012.jpg",
+  "IMG-20250728-WA0013.jpg",
+  "IMG-20250728-WA0014.jpg",
+  "IMG-20250728-WA0015.jpg",
+  "IMG-20250728-WA0016.jpg",
+  "IMG-20250728-WA0017.jpg",
+  "IMG-20250728-WA0018.jpg",
+  "IMG-20250728-WA0019.jpg",
+  "IMG-20250728-WA0020.jpg",
+  "IMG-20250728-WA0021.jpg",
+  "IMG-20250728-WA0022.jpg",
+  "IMG-20250728-WA0023.jpg",
+  "IMG-20250728-WA0024.jpg",
+  "IMG-20250728-WA0025.jpg",
+  "IMG-20250728-WA0026.jpg",
+  "IMG-20250728-WA0027.jpg",
+  "IMG-20250728-WA0028.jpg",
+  "IMG-20250728-WA0029.jpg",
+  "IMG-20250728-WA0030.jpg",
+  "IMG-20250728-WA0031.jpg",
+  "IMG-20250728-WA0032.jpg",
+  "IMG-20250728-WA0033.jpg",
+  "IMG-20250728-WA0034.jpg",
+  "IMG-20250728-WA0035.jpg",
+  "IMG-20250728-WA0036.jpg",
+  "IMG-20250728-WA0037.jpg",
+  "IMG-20251216-WA0000.jpg",
+  "IMG-20251216-WA0001.jpg",
+  "IMG-20251216-WA0002.jpg",
+  "IMG-20251216-WA0003.jpg",
+  "IMG-20251216-WA0004.jpg",
+  "IMG-20251216-WA0005.jpg",
+  "IMG-20251216-WA0006.jpg",
+  "IMG-20251216-WA0007.jpg",
+  "IMG-20251216-WA0008.jpg",
+  "IMG-20251216-WA0009.jpg",
+  "IMG-20251216-WA0010.jpg",
+  "IMG-20251216-WA0012.jpg",
+  "IMG-20251216-WA0013.jpg",
+  "IMG-20251216-WA0014.jpg",
+  "IMG-20251216-WA0015.jpg",
+  "IMG-20251216-WA0016.jpg",
+  "IMG-20251216-WA0017.jpg",
+  "IMG-20251216-WA0018.jpg",
+  "IMG-20251216-WA0019.jpg",
+  "IMG-20251216-WA0020.jpg",
+  "IMG-20251216-WA0021.jpg",
+  "IMG-20251216-WA0023.jpg",
+  "IMG-20251216-WA0024.jpg",
+  "IMG-20251216-WA0025.jpg",
+  "IMG-20251216-WA0026.jpg",
+  "IMG-20251216-WA0027.jpg",
+  "IMG-20251216-WA0028.jpg",
+  "IMG-20251216-WA0029.jpg",
+  "IMG-20251216-WA0030.jpg",
+  "IMG-20251216-WA0031.jpg",
+  "IMG-20251216-WA0032.jpg",
+  "IMG-20251216-WA0033.jpg",
+  "IMG-20251216-WA0034.jpg",
 ];
+
+// Generate photo data from filenames
+const generatePhotoData = (filename) => {
+  // Extract date from filename (format: IMG-YYYYMMDD-WA####.jpg)
+  const dateMatch = filename.match(/IMG-(\d{8})-/);
+  if (dateMatch) {
+    const dateStr = dateMatch[1];
+    const year = dateStr.substring(0, 4);
+    const month = dateStr.substring(4, 6);
+    const monthNames = [
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    const monthName = monthNames[parseInt(month) - 1];
+    return {
+      src: `assets/photos/${filename}`,
+      caption: `A beautiful memory`,
+      date: `${monthName} ${year}`,
+      tags: [],
+      note: "",
+      isFavorite: false,
+      id: filename,
+    };
+  }
+  return {
+    src: `assets/photos/${filename}`,
+    caption: `A beautiful memory`,
+    date: "2025",
+    tags: [],
+    note: "",
+    isFavorite: false,
+    id: filename,
+  };
+};
+
+let photos = photoFiles.map(generatePhotoData);
+let filteredPhotos = [...photos];
+let favoritesOnly = false;
+let sortNewestFirst = true;
+let currentSpotlightIndex = 0;
+let searchQuery = "";
+let currentModalPhoto = null;
 
 const highlights = [
   {
@@ -88,23 +182,6 @@ const highlights = [
   },
 ];
 
-const placeholderSvg = encodeURIComponent(
-  `<svg xmlns="http://www.w3.org/2000/svg" width="420" height="320">
-     <defs>
-       <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
-         <stop offset="0%" stop-color="#f2d7c6"/>
-         <stop offset="100%" stop-color="#e8bfa0"/>
-       </linearGradient>
-     </defs>
-     <rect width="100%" height="100%" fill="url(#g)"/>
-     <text x="50%" y="50%" font-size="22" text-anchor="middle" fill="#6b4033" font-family="Arial, sans-serif">
-       Add your photo
-     </text>
-   </svg>`
-);
-
-const placeholderSrc = `data:image/svg+xml;utf8,${placeholderSvg}`;
-
 const byId = (id) => document.getElementById(id);
 
 const setText = (id, value) => {
@@ -114,52 +191,240 @@ const setText = (id, value) => {
   }
 };
 
-const renderCollage = () => {
-  const grid = byId("collageGrid");
-  if (!grid) {
+// Load saved data from localStorage
+const loadSavedData = () => {
+  try {
+    const saved = localStorage.getItem("sofiaPhotosData");
+    if (saved) {
+      const savedData = JSON.parse(saved);
+      // Merge saved data with photos
+      photos = photos.map((photo) => {
+        const saved = savedData.find((p) => p.id === photo.id);
+        return saved ? { ...photo, ...saved } : photo;
+      });
+    }
+  } catch (e) {
+    console.error("Error loading saved data:", e);
+  }
+};
+
+// Save data to localStorage
+const saveData = () => {
+  try {
+    localStorage.setItem("sofiaPhotosData", JSON.stringify(photos));
+  } catch (e) {
+    console.error("Error saving data:", e);
+  }
+};
+
+// Filter and sort photos
+const filterAndSortPhotos = () => {
+  filteredPhotos = [...photos];
+
+  // Filter by favorites
+  if (favoritesOnly) {
+    filteredPhotos = filteredPhotos.filter((p) => p.isFavorite);
+  }
+
+  // Filter by search query
+  if (searchQuery.trim()) {
+    const query = searchQuery.toLowerCase();
+    filteredPhotos = filteredPhotos.filter(
+      (p) =>
+        p.caption.toLowerCase().includes(query) ||
+        p.date.toLowerCase().includes(query) ||
+        p.note.toLowerCase().includes(query) ||
+        p.tags.some((t) => t.toLowerCase().includes(query))
+    );
+  }
+
+  // Sort
+  if (sortNewestFirst) {
+    filteredPhotos.sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return dateB - dateA;
+    });
+  } else {
+    filteredPhotos.sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return dateA - dateB;
+    });
+  }
+};
+
+// Render gallery
+const renderGallery = () => {
+  const grid = byId("galleryGrid");
+  const empty = byId("galleryEmpty");
+  if (!grid) return;
+
+  grid.innerHTML = "";
+
+  if (filteredPhotos.length === 0) {
+    if (empty) empty.hidden = false;
     return;
   }
 
+  if (empty) empty.hidden = true;
+
   const fragment = document.createDocumentFragment();
 
-  photos.forEach((photo, index) => {
-    const figure = document.createElement("figure");
-    figure.className = "polaroid";
+  filteredPhotos.forEach((photo, index) => {
+    const card = document.createElement("article");
+    card.className = "memory-card";
+    card.style.animationDelay = `${index * 0.05}s`;
 
-    const tilt = (index % 2 === 0 ? -1 : 1) * (1.5 + (index % 3) * 0.6);
-    const raise = (index % 3) * 4;
-    figure.style.setProperty("--tilt", `${tilt}deg`);
-    figure.style.setProperty("--raise", `${raise * -1}px`);
+    const media = document.createElement("div");
+    media.className = "memory-card__media";
 
     const img = document.createElement("img");
     img.src = photo.src;
     img.alt = photo.caption;
     img.loading = "lazy";
-    img.addEventListener("error", () => {
-      img.src = placeholderSrc;
-    });
 
-    const caption = document.createElement("figcaption");
-    caption.textContent = photo.caption;
+    const body = document.createElement("div");
+    body.className = "memory-card__body";
 
-    const date = document.createElement("span");
-    date.className = "date";
+    const title = document.createElement("h3");
+    title.className = "memory-card__title";
+    title.textContent = photo.caption;
+
+    const date = document.createElement("p");
+    date.className = "memory-card__date";
     date.textContent = photo.date;
 
-    caption.appendChild(date);
-    figure.appendChild(img);
-    figure.appendChild(caption);
-    fragment.appendChild(figure);
+    const tags = document.createElement("div");
+    tags.className = "memory-card__tags";
+    if (photo.tags && photo.tags.length > 0) {
+      photo.tags.forEach((tag) => {
+        const tagEl = document.createElement("span");
+        tagEl.className = "tag";
+        tagEl.textContent = tag;
+        tags.appendChild(tagEl);
+      });
+    }
+
+    media.appendChild(img);
+    body.appendChild(title);
+    body.appendChild(date);
+    if (photo.tags && photo.tags.length > 0) {
+      body.appendChild(tags);
+    }
+    card.appendChild(media);
+    card.appendChild(body);
+
+    card.addEventListener("click", () => openModal(photo));
+    fragment.appendChild(card);
   });
 
   grid.appendChild(fragment);
 };
 
+// Render spotlight
+const renderSpotlight = () => {
+  if (filteredPhotos.length === 0) return;
+
+  const photo = filteredPhotos[currentSpotlightIndex % filteredPhotos.length];
+  if (!photo) return;
+
+  const img = byId("spotlightImage");
+  const caption = byId("spotlightCaption");
+  const date = byId("spotlightDate");
+  const note = byId("spotlightNote");
+  const tags = byId("spotlightTags");
+  const likeBtn = byId("spotlightLike");
+
+  if (img) img.src = photo.src;
+  if (caption) caption.textContent = photo.caption;
+  if (date) date.textContent = photo.date;
+  if (note) note.textContent = photo.note || "Tap a photo to add a note.";
+  if (tags) {
+    tags.innerHTML = "";
+    if (photo.tags && photo.tags.length > 0) {
+      photo.tags.forEach((tag) => {
+        const tagEl = document.createElement("span");
+        tagEl.className = "tag";
+        tagEl.textContent = tag;
+        tags.appendChild(tagEl);
+      });
+    }
+  }
+  if (likeBtn) {
+    likeBtn.classList.toggle("is-active", photo.isFavorite);
+    likeBtn.setAttribute("aria-pressed", photo.isFavorite);
+  }
+};
+
+// Open modal
+const openModal = (photo) => {
+  const modal = byId("photoModal");
+  if (!modal) return;
+
+  currentModalPhoto = photo;
+
+  const img = byId("modalImage");
+  const caption = byId("modalCaption");
+  const date = byId("modalDate");
+  const note = byId("modalNote");
+  const tags = byId("modalTags");
+  const favoriteBtn = byId("modalFavorite");
+
+  if (img) img.src = photo.src;
+  if (caption) caption.textContent = photo.caption;
+  if (date) date.textContent = photo.date;
+  if (note) note.value = photo.note || "";
+  if (tags) {
+    tags.innerHTML = "";
+    if (photo.tags && photo.tags.length > 0) {
+      photo.tags.forEach((tag) => {
+        const tagEl = document.createElement("span");
+        tagEl.className = "tag";
+        tagEl.textContent = tag;
+        tags.appendChild(tagEl);
+      });
+    }
+  }
+  if (favoriteBtn) {
+    favoriteBtn.textContent = photo.isFavorite ? "Remove from favorites" : "Add to favorites";
+  }
+
+  modal.classList.add("is-open");
+  modal.setAttribute("aria-hidden", "false");
+};
+
+// Close modal
+const closeModal = () => {
+  const modal = byId("photoModal");
+  if (!modal) return;
+  modal.classList.remove("is-open");
+  modal.setAttribute("aria-hidden", "true");
+  currentModalPhoto = null;
+};
+
+// Update stats
+const updateStats = () => {
+  const total = byId("statTotal");
+  const favorites = byId("statFavorites");
+  const moments = byId("statMoments");
+  const collections = byId("statCollections");
+
+  if (total) total.textContent = photos.length;
+  if (favorites) {
+    const favCount = photos.filter((p) => p.isFavorite).length;
+    favorites.textContent = favCount;
+  }
+  if (moments) moments.textContent = photos.length;
+  if (collections) collections.textContent = Math.ceil(photos.length / 12);
+};
+
+// Render highlights
 const renderHighlights = () => {
   const grid = byId("highlightGrid");
-  if (!grid) {
-    return;
-  }
+  if (!grid) return;
+
+  grid.innerHTML = "";
 
   const fragment = document.createDocumentFragment();
 
@@ -181,6 +446,7 @@ const renderHighlights = () => {
   grid.appendChild(fragment);
 };
 
+// Apply config
 const applyConfig = () => {
   setText("eyebrow", config.eyebrow);
   setText("title", config.title);
@@ -191,10 +457,174 @@ const applyConfig = () => {
   setText("footerNote", config.footerNote);
 };
 
+// Event listeners
+const setupEventListeners = () => {
+  // Toggle favorites
+  const toggleFavorites = byId("toggleFavorites");
+  if (toggleFavorites) {
+    toggleFavorites.addEventListener("click", () => {
+      favoritesOnly = !favoritesOnly;
+      toggleFavorites.classList.toggle("is-active", favoritesOnly);
+      toggleFavorites.setAttribute("aria-pressed", favoritesOnly);
+      filterAndSortPhotos();
+      renderGallery();
+      renderSpotlight();
+    });
+  }
+
+  // Toggle view (placeholder for moodboard view)
+  const toggleView = byId("toggleView");
+  if (toggleView) {
+    toggleView.addEventListener("click", () => {
+      document.body.classList.toggle("view-moodboard");
+      toggleView.textContent = document.body.classList.contains("view-moodboard")
+        ? "Grid view"
+        : "Moodboard view";
+    });
+  }
+
+  // Shuffle spotlight
+  const shuffleSpotlight = byId("shuffleSpotlight");
+  if (shuffleSpotlight) {
+    shuffleSpotlight.addEventListener("click", () => {
+      if (filteredPhotos.length > 0) {
+        currentSpotlightIndex = Math.floor(Math.random() * filteredPhotos.length);
+        renderSpotlight();
+      }
+    });
+  }
+
+  // Spotlight open
+  const spotlightOpen = byId("spotlightOpen");
+  if (spotlightOpen) {
+    spotlightOpen.addEventListener("click", () => {
+      if (filteredPhotos.length > 0) {
+        const photo = filteredPhotos[currentSpotlightIndex % filteredPhotos.length];
+        if (photo) openModal(photo);
+      }
+    });
+  }
+
+  // Spotlight like
+  const spotlightLike = byId("spotlightLike");
+  if (spotlightLike) {
+    spotlightLike.addEventListener("click", () => {
+      if (filteredPhotos.length > 0) {
+        const photo = filteredPhotos[currentSpotlightIndex % filteredPhotos.length];
+        if (photo) {
+          photo.isFavorite = !photo.isFavorite;
+          saveData();
+          renderSpotlight();
+          updateStats();
+          renderGallery();
+        }
+      }
+    });
+  }
+
+  // Search
+  const searchInput = byId("searchInput");
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+      searchQuery = e.target.value;
+      filterAndSortPhotos();
+      renderGallery();
+      renderSpotlight();
+    });
+  }
+
+  // Toggle sort
+  const toggleSort = byId("toggleSort");
+  if (toggleSort) {
+    toggleSort.addEventListener("click", () => {
+      sortNewestFirst = !sortNewestFirst;
+      toggleSort.textContent = sortNewestFirst ? "Newest first" : "Oldest first";
+      filterAndSortPhotos();
+      renderGallery();
+      renderSpotlight();
+    });
+  }
+
+  // Clear filters
+  const clearFilters = byId("clearFilters");
+  if (clearFilters) {
+    clearFilters.addEventListener("click", () => {
+      favoritesOnly = false;
+      searchQuery = "";
+      if (toggleFavorites) {
+        toggleFavorites.classList.remove("is-active");
+        toggleFavorites.setAttribute("aria-pressed", "false");
+      }
+      if (searchInput) searchInput.value = "";
+      filterAndSortPhotos();
+      renderGallery();
+      renderSpotlight();
+    });
+  }
+
+  // Modal close
+  const closeModalBtn = byId("closeModal");
+  if (closeModalBtn) {
+    closeModalBtn.addEventListener("click", closeModal);
+  }
+
+  const modalOverlay = document.querySelector("[data-modal-close]");
+  if (modalOverlay) {
+    modalOverlay.addEventListener("click", closeModal);
+  }
+
+  // Save note
+  const saveNote = byId("saveNote");
+  if (saveNote) {
+    saveNote.addEventListener("click", () => {
+      const noteInput = byId("modalNote");
+      if (currentModalPhoto && noteInput) {
+        const photoIndex = photos.findIndex((p) => p.id === currentModalPhoto.id);
+        if (photoIndex !== -1) {
+          photos[photoIndex].note = noteInput.value;
+          saveData();
+          closeModal();
+          filterAndSortPhotos();
+          renderSpotlight();
+          renderGallery();
+        }
+      }
+    });
+  }
+
+  // Modal favorite
+  const modalFavorite = byId("modalFavorite");
+  if (modalFavorite) {
+    modalFavorite.addEventListener("click", () => {
+      if (currentModalPhoto) {
+        const photoIndex = photos.findIndex((p) => p.id === currentModalPhoto.id);
+        if (photoIndex !== -1) {
+          photos[photoIndex].isFavorite = !photos[photoIndex].isFavorite;
+          saveData();
+          updateStats();
+          filterAndSortPhotos();
+          renderGallery();
+          renderSpotlight();
+          // Update button text
+          modalFavorite.textContent = photos[photoIndex].isFavorite
+            ? "Remove from favorites"
+            : "Add to favorites";
+        }
+      }
+    });
+  }
+};
+
+// Initialize
 const init = () => {
+  loadSavedData();
   applyConfig();
-  renderCollage();
+  filterAndSortPhotos();
+  renderGallery();
+  renderSpotlight();
   renderHighlights();
+  updateStats();
+  setupEventListeners();
 };
 
 document.addEventListener("DOMContentLoaded", init);
