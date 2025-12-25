@@ -3,168 +3,181 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Christmas Collage</title>
+    <title>For Sofia ❤️</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="ambient" aria-hidden="true">
-      <span class="ambient__shape ambient__shape--one"></span>
-      <span class="ambient__shape ambient__shape--two"></span>
-      <span class="ambient__shape ambient__shape--three"></span>
-      <span class="ambient__shape ambient__shape--four"></span>
+    <!-- Gift Opening Screen -->
+    <div class="gift-screen" id="giftScreen">
+      <div class="gift-content">
+        <div class="gift-box" id="giftBox">
+          <div class="gift-lid">
+            <div class="gift-bow"></div>
+          </div>
+          <div class="gift-base"></div>
+        </div>
+        <div class="gift-text">
+          <p class="gift-label">A Special Gift For</p>
+          <h1 class="gift-name">Sofia</h1>
+          <p class="gift-from">From Rob, with all my love ❤️</p>
+          <button class="gift-open-btn" id="openGift">Open Your Gift</button>
+        </div>
+      </div>
+      <div class="snowflakes" aria-hidden="true">
+        <span class="snowflake">❄</span>
+        <span class="snowflake">❅</span>
+        <span class="snowflake">❆</span>
+        <span class="snowflake">❄</span>
+        <span class="snowflake">❅</span>
+        <span class="snowflake">❆</span>
+        <span class="snowflake">❄</span>
+        <span class="snowflake">❅</span>
+      </div>
     </div>
 
-    <header class="app-header">
-      <div class="brand">
-        <div class="brand__badge">S</div>
-        <div class="brand__text">
-          <p class="eyebrow" id="eyebrow">Holiday Memories</p>
-          <h1 class="brand__title" id="title">Merry Christmas, Sofia</h1>
-        </div>
+    <!-- Main App -->
+    <div class="app-wrapper" id="appWrapper">
+      <div class="ambient" aria-hidden="true">
+        <span class="ambient__shape ambient__shape--one"></span>
+        <span class="ambient__shape ambient__shape--two"></span>
+        <span class="ambient__shape ambient__shape--three"></span>
+        <span class="ambient__shape ambient__shape--four"></span>
       </div>
-      <div class="header-actions">
-        <button class="chip" id="toggleFavorites" type="button" aria-pressed="false">
-          Favorites
-        </button>
-        <button class="chip" id="toggleView" type="button">
-          Moodboard view
-        </button>
-        <button class="button-primary" id="shuffleSpotlight" type="button">
-          Shuffle memory
-        </button>
-      </div>
-    </header>
 
-    <main class="app">
-      <section class="hero-card">
-        <div class="hero-card__copy">
-          <p class="subtitle" id="subtitle">
-            A cozy collage of our favorite moments together.
-          </p>
-          <div class="signature" id="signature">With love, Rob</div>
-          <div class="stats">
-            <div class="stat">
-              <span class="stat__value" id="statTotal">0</span>
-              <span class="stat__label">Photos</span>
-            </div>
-            <div class="stat">
-              <span class="stat__value" id="statFavorites">0</span>
-              <span class="stat__label">Favorites</span>
-            </div>
-            <div class="stat">
-              <span class="stat__value" id="statMoments">0</span>
-              <span class="stat__label">Moments</span>
-            </div>
-            <div class="stat">
-              <span class="stat__value" id="statCollections">0</span>
-              <span class="stat__label">Collections</span>
-            </div>
+      <header class="app-header">
+        <div class="brand">
+          <div class="brand__badge">S</div>
+          <div class="brand__text">
+            <p class="eyebrow" id="eyebrow">Holiday Memories</p>
+            <h1 class="brand__title" id="title">Merry Christmas, Sofia</h1>
           </div>
         </div>
-        <div class="note-card">
-          <h2 id="noteTitle">Why this collage</h2>
-          <p id="noteBody">
-            Every photo is a little reminder that the best part of every season
-            is you.
-          </p>
-          <div class="note-card__footer">
-            <span class="pill">Live on the web</span>
-          </div>
-        </div>
-      </section>
-
-      <section class="spotlight" aria-label="Spotlight memory">
-        <div class="section-head">
-          <div>
-            <p class="section-kicker">Spotlight</p>
-            <h2 class="section-title">Memory of the moment</h2>
-          </div>
-          <button class="chip" id="spotlightOpen" type="button">
-            Open details
+        <div class="header-actions">
+          <button class="chip" id="toggleFavorites" type="button" aria-pressed="false">
+            ♥ Favorites
+          </button>
+          <button class="button-primary" id="shuffleSpotlight" type="button">
+            ✨ Surprise Me
           </button>
         </div>
-        <div class="spotlight-card" id="spotlightCard">
-          <div class="spotlight-media">
-            <img id="spotlightImage" alt="" loading="lazy" />
-            <button class="love-button" id="spotlightLike" type="button" aria-pressed="false">
-              <span class="love-button__icon" aria-hidden="true"></span>
-              <span class="sr-only">Toggle favorite</span>
-            </button>
-          </div>
-          <div class="spotlight-body">
-            <div class="tag-row" id="spotlightTags"></div>
-            <h3 id="spotlightCaption"></h3>
-            <p class="spotlight-date" id="spotlightDate"></p>
-            <p class="spotlight-note" id="spotlightNote">
-              Tap a photo to add a note.
+      </header>
+
+      <main class="app">
+        <!-- Hero Section -->
+        <section class="hero">
+          <div class="hero__intro">
+            <span class="hero__badge">🎄 Christmas 2025</span>
+            <h2 class="hero__title">
+              Every photo tells<br>
+              <em>our story</em>
+            </h2>
+            <p class="hero__text" id="subtitle">
+              A cozy collage of our favorite moments together. 
+              Because every season is better with you.
             </p>
+            <div class="hero__signature" id="signature">With love, Rob ❤️</div>
           </div>
-        </div>
-      </section>
-
-      <section class="controls" aria-label="Gallery controls">
-        <div class="search">
-          <label class="sr-only" for="searchInput">Search memories</label>
-          <input
-            id="searchInput"
-            type="search"
-            placeholder="Search memories, tags, dates..."
-            autocomplete="off"
-          />
-        </div>
-        <div class="chip-row" id="tagFilters"></div>
-        <div class="controls-actions">
-          <label class="chip upload-btn">
-            Upload photo
-            <input type="file" id="photoUpload" accept="image/*" multiple hidden>
-          </label>
-          <button class="chip" id="toggleSort" type="button">Newest first</button>
-          <button class="chip" id="clearFilters" type="button">Clear filters</button>
-        </div>
-      </section>
-
-      <section class="gallery" aria-label="Memory gallery">
-        <div class="gallery-grid" id="galleryGrid"></div>
-        <div class="gallery-empty" id="galleryEmpty" hidden>
-          No memories match this filter yet.
-        </div>
-      </section>
-
-      <section class="highlights" aria-label="Favorite highlights">
-        <div class="section-head">
-          <div>
-            <p class="section-kicker">Highlights</p>
-            <h2 class="section-title">Our favorite chapters</h2>
+          
+          <div class="hero__stats">
+            <div class="stat-card">
+              <span class="stat-card__value" id="statTotal">0</span>
+              <span class="stat-card__label">Memories</span>
+            </div>
+            <div class="stat-card stat-card--accent">
+              <span class="stat-card__value" id="statFavorites">0</span>
+              <span class="stat-card__label">Favorites</span>
+            </div>
           </div>
-        </div>
-        <div class="highlight-grid" id="highlightGrid"></div>
-      </section>
+        </section>
 
-      <section class="footer-note">
-        <p id="footerNote">
-          Here is to more cocoa nights, more adventures, and a hundred more
-          Christmases together.
-        </p>
-      </section>
-    </main>
+        <!-- Spotlight -->
+        <section class="spotlight" aria-label="Spotlight memory">
+          <div class="section-header">
+            <div>
+              <span class="section-tag">✧ Featured</span>
+              <h2 class="section-title">Memory of the Moment</h2>
+            </div>
+            <button class="chip" id="spotlightOpen" type="button">View Details →</button>
+          </div>
+          
+          <div class="spotlight-card" id="spotlightCard">
+            <div class="spotlight-card__image">
+              <img id="spotlightImage" alt="" loading="lazy" />
+              <button class="heart-btn" id="spotlightLike" type="button" aria-pressed="false">
+                ♥
+              </button>
+            </div>
+            <div class="spotlight-card__info">
+              <span class="spotlight-card__date" id="spotlightDate"></span>
+              <h3 class="spotlight-card__caption" id="spotlightCaption"></h3>
+              <p class="spotlight-card__note" id="spotlightNote">
+                Click any photo to add a sweet note.
+              </p>
+            </div>
+          </div>
+        </section>
 
+        <!-- Gallery Controls -->
+        <section class="gallery-controls">
+          <div class="search-box">
+            <span class="search-box__icon">🔍</span>
+            <input
+              id="searchInput"
+              type="search"
+              placeholder="Search memories..."
+              autocomplete="off"
+            />
+          </div>
+          <div class="controls-group">
+            <label class="upload-btn">
+              <span>+ Upload</span>
+              <input type="file" id="photoUpload" accept="image/*" multiple>
+            </label>
+            <button class="chip" id="toggleSort" type="button">↓ Newest</button>
+            <button class="chip chip--subtle" id="clearFilters" type="button">Clear</button>
+          </div>
+        </section>
+
+        <!-- Photo Gallery -->
+        <section class="gallery" aria-label="Memory gallery">
+          <div class="gallery-grid" id="galleryGrid"></div>
+          <div class="gallery-empty" id="galleryEmpty" hidden>
+            <span class="gallery-empty__icon">📷</span>
+            <p>No memories found</p>
+          </div>
+        </section>
+
+        <!-- Footer Message -->
+        <footer class="app-footer">
+          <div class="footer-heart">❤️</div>
+          <p class="footer-message" id="footerNote">
+            Here's to more cocoa nights, more adventures, and a hundred more Christmases together.
+          </p>
+        </footer>
+      </main>
+    </div>
+
+    <!-- Photo Modal -->
     <div class="modal" id="photoModal" aria-hidden="true">
       <div class="modal__overlay" data-modal-close="true"></div>
-      <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="modalCaption">
-        <button class="modal__close" id="closeModal" type="button">Close</button>
-        <div class="modal__media">
+      <div class="modal__panel" role="dialog" aria-modal="true">
+        <button class="modal__close" id="closeModal" type="button">✕</button>
+        <div class="modal__image">
           <img id="modalImage" alt="" loading="lazy" />
         </div>
         <div class="modal__content">
-          <div class="tag-row" id="modalTags"></div>
-          <h3 id="modalCaption"></h3>
-          <p class="modal__date" id="modalDate"></p>
-          <label class="note-label" for="modalNote">Add a note</label>
-          <textarea id="modalNote" rows="4" placeholder="Write something sweet..."></textarea>
+          <span class="modal__date" id="modalDate"></span>
+          <h3 class="modal__caption" id="modalCaption"></h3>
+          
+          <div class="modal__note-section">
+            <label class="modal__label" for="modalNote">Your Note</label>
+            <textarea id="modalNote" rows="3" placeholder="Write something sweet about this memory..."></textarea>
+          </div>
+          
           <div class="modal__actions">
-            <button class="chip" id="saveNote" type="button">Save note</button>
-            <button class="chip" id="modalFavorite" type="button">Add to favorites</button>
-            <button class="chip chip--danger" id="modalDelete" type="button">Delete photo</button>
+            <button class="btn btn--primary" id="saveNote" type="button">Save Note</button>
+            <button class="btn btn--outline" id="modalFavorite" type="button">♥ Favorite</button>
+            <button class="btn btn--danger" id="modalDelete" type="button">Delete</button>
           </div>
         </div>
       </div>

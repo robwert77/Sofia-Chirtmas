@@ -387,7 +387,7 @@ const openModal = (photo) => {
     }
   }
   if (favoriteBtn) {
-    favoriteBtn.textContent = photo.isFavorite ? "Remove from favorites" : "Add to favorites";
+    favoriteBtn.textContent = photo.isFavorite ? "♥ Favorited" : "♥ Favorite";
   }
 
   modal.classList.add("is-open");
@@ -607,8 +607,8 @@ const setupEventListeners = () => {
           renderSpotlight();
           // Update button text
           modalFavorite.textContent = photos[photoIndex].isFavorite
-            ? "Remove from favorites"
-            : "Add to favorites";
+            ? "♥ Favorited"
+            : "♥ Favorite";
         }
       }
     });
@@ -673,8 +673,45 @@ const setupEventListeners = () => {
   }
 };
 
+// Gift Opening Animation
+const initGiftScreen = () => {
+  const giftScreen = byId("giftScreen");
+  const appWrapper = byId("appWrapper");
+  const openGiftBtn = byId("openGift");
+  const giftBox = byId("giftBox");
+
+  // Check if already opened this session
+  if (sessionStorage.getItem("giftOpened") === "true") {
+    if (giftScreen) giftScreen.style.display = "none";
+    if (appWrapper) appWrapper.classList.add("is-visible");
+    return;
+  }
+
+  // Handle gift opening
+  const openGift = () => {
+    if (giftScreen) {
+      giftScreen.classList.add("is-opening");
+      
+      setTimeout(() => {
+        giftScreen.classList.add("is-opened");
+        if (appWrapper) appWrapper.classList.add("is-visible");
+        sessionStorage.setItem("giftOpened", "true");
+      }, 800);
+    }
+  };
+
+  if (openGiftBtn) {
+    openGiftBtn.addEventListener("click", openGift);
+  }
+  
+  if (giftBox) {
+    giftBox.addEventListener("click", openGift);
+  }
+};
+
 // Initialize
 const init = () => {
+  initGiftScreen();
   loadSavedData();
   applyConfig();
   filterAndSortPhotos();
