@@ -1,19 +1,21 @@
 @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Sora:wght@300;400;500;600&display=swap");
 
 :root {
-  --rose: #e85d75;
-  --coral: #ff8a6b;
-  --sun: #ffc47a;
-  --mint: #7ed4c3;
-  --sky: #b3d8ff;
-  --ink: #2c1e24;
-  --muted: #6b5a60;
-  --paper: #fff8f5;
-  --card: rgba(255, 255, 255, 0.95);
-  --border: rgba(44, 30, 36, 0.08);
-  --shadow-sm: 0 4px 12px rgba(44, 30, 36, 0.06);
-  --shadow-md: 0 8px 30px rgba(44, 30, 36, 0.1);
-  --shadow-lg: 0 20px 50px rgba(44, 30, 36, 0.15);
+  /* Cute Yellow Palette 💛 */
+  --honey: #f5b942;
+  --sunshine: #ffd166;
+  --butter: #fff3cd;
+  --peach: #ffb085;
+  --blush: #ffc9c9;
+  --lavender: #e8d5f2;
+  --ink: #3d3225;
+  --muted: #7a6f60;
+  --cream: #fffdf8;
+  --card: rgba(255, 255, 255, 0.96);
+  --border: rgba(61, 50, 37, 0.08);
+  --shadow-sm: 0 4px 12px rgba(61, 50, 37, 0.05);
+  --shadow-md: 0 8px 30px rgba(61, 50, 37, 0.08);
+  --shadow-lg: 0 20px 50px rgba(61, 50, 37, 0.12);
   --radius-sm: 12px;
   --radius-md: 20px;
   --radius-lg: 28px;
@@ -27,7 +29,7 @@ body {
   margin: 0;
   font-family: "Sora", system-ui, sans-serif;
   color: var(--ink);
-  background: linear-gradient(180deg, #fff8f5 0%, #fff0eb 50%, #ffeae3 100%);
+  background: linear-gradient(180deg, #fffdf8 0%, #fff9e6 50%, #fff5d6 100%);
   min-height: 100vh;
   line-height: 1.6;
 }
@@ -47,7 +49,7 @@ button {
   position: fixed;
   inset: 0;
   z-index: 100;
-  background: linear-gradient(135deg, #2c1e24 0%, #4a2832 50%, #2c1e24 100%);
+  background: linear-gradient(135deg, #3d3225 0%, #5c4a32 50%, #3d3225 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -83,7 +85,7 @@ button {
   bottom: 0;
   width: 180px;
   height: 100px;
-  background: linear-gradient(135deg, var(--rose) 0%, #c94d63 100%);
+  background: linear-gradient(135deg, var(--honey) 0%, #e5a030 100%);
   border-radius: 8px;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
 }
@@ -96,7 +98,7 @@ button {
   bottom: 0;
   width: 30px;
   margin-left: -15px;
-  background: linear-gradient(90deg, var(--sun) 0%, #e5a954 100%);
+  background: linear-gradient(90deg, var(--peach) 0%, #ff9966 100%);
 }
 
 .gift-lid {
@@ -105,7 +107,7 @@ button {
   left: -10px;
   width: 200px;
   height: 60px;
-  background: linear-gradient(135deg, var(--rose) 0%, #c94d63 100%);
+  background: linear-gradient(135deg, var(--honey) 0%, #e5a030 100%);
   border-radius: 8px 8px 4px 4px;
   transform-origin: bottom center;
   transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -120,7 +122,7 @@ button {
   bottom: 0;
   width: 30px;
   margin-left: -15px;
-  background: linear-gradient(90deg, var(--sun) 0%, #e5a954 100%);
+  background: linear-gradient(90deg, var(--peach) 0%, #ff9966 100%);
 }
 
 .gift-screen.is-opening .gift-lid {
@@ -142,7 +144,7 @@ button {
   position: absolute;
   width: 30px;
   height: 25px;
-  background: var(--sun);
+  background: var(--peach);
   border-radius: 50% 50% 0 50%;
   top: 8px;
 }
@@ -175,7 +177,7 @@ button {
   font-size: clamp(3rem, 10vw, 5rem);
   font-weight: 600;
   margin: 0 0 8px;
-  background: linear-gradient(135deg, #fff 0%, var(--sun) 100%);
+  background: linear-gradient(135deg, #fff 0%, var(--sunshine) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -189,18 +191,18 @@ button {
 
 .gift-open-btn {
   padding: 16px 40px;
-  background: linear-gradient(135deg, var(--sun) 0%, var(--coral) 100%);
+  background: linear-gradient(135deg, var(--sunshine) 0%, var(--honey) 100%);
   color: var(--ink);
   font-weight: 600;
   font-size: 1rem;
   border-radius: 100px;
-  box-shadow: 0 10px 30px rgba(255, 196, 122, 0.4);
+  box-shadow: 0 10px 30px rgba(245, 185, 66, 0.4);
   transition: all 0.3s ease;
 }
 
 .gift-open-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 15px 40px rgba(255, 196, 122, 0.5);
+  box-shadow: 0 15px 40px rgba(245, 185, 66, 0.5);
 }
 
 /* Snowflakes */
@@ -269,7 +271,7 @@ button {
   height: 400px;
   top: -100px;
   left: -100px;
-  background: var(--rose);
+  background: var(--sunshine);
 }
 
 .ambient__shape--two {
@@ -277,7 +279,7 @@ button {
   height: 300px;
   top: 20%;
   right: -80px;
-  background: var(--sun);
+  background: var(--peach);
   animation-delay: 5s;
 }
 
@@ -286,7 +288,7 @@ button {
   height: 350px;
   bottom: -100px;
   left: 20%;
-  background: var(--mint);
+  background: var(--lavender);
   animation-delay: 10s;
 }
 
@@ -295,7 +297,7 @@ button {
   height: 250px;
   bottom: 20%;
   right: 10%;
-  background: var(--sky);
+  background: var(--blush);
   animation-delay: 15s;
 }
 
@@ -314,7 +316,7 @@ button {
   justify-content: space-between;
   gap: 20px;
   padding: 16px 5vw;
-  background: rgba(255, 248, 245, 0.8);
+  background: rgba(255, 253, 248, 0.85);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
 }
@@ -329,7 +331,7 @@ button {
   width: 48px;
   height: 48px;
   border-radius: var(--radius-sm);
-  background: linear-gradient(135deg, var(--rose) 0%, var(--coral) 100%);
+  background: linear-gradient(135deg, var(--honey) 0%, var(--peach) 100%);
   color: white;
   display: grid;
   place-items: center;
@@ -344,7 +346,7 @@ button {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  color: var(--rose);
+  color: var(--honey);
   margin: 0 0 4px;
 }
 
@@ -398,18 +400,18 @@ button {
 
 .button-primary {
   padding: 10px 24px;
-  background: linear-gradient(135deg, var(--rose) 0%, var(--coral) 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--honey) 0%, var(--peach) 100%);
+  color: var(--ink);
   border-radius: 100px;
   font-size: 0.9rem;
   font-weight: 600;
-  box-shadow: 0 8px 20px rgba(232, 93, 117, 0.3);
+  box-shadow: 0 8px 20px rgba(245, 185, 66, 0.3);
   transition: all 0.2s ease;
 }
 
 .button-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(232, 93, 117, 0.4);
+  box-shadow: 0 12px 28px rgba(245, 185, 66, 0.4);
 }
 
 /* ========== MAIN CONTENT ========== */
@@ -436,8 +438,8 @@ button {
 .hero__badge {
   display: inline-block;
   padding: 8px 16px;
-  background: rgba(232, 93, 117, 0.1);
-  color: var(--rose);
+  background: rgba(245, 185, 66, 0.15);
+  color: var(--honey);
   font-size: 0.85rem;
   font-weight: 600;
   border-radius: 100px;
@@ -454,7 +456,7 @@ button {
 
 .hero__title em {
   font-style: italic;
-  color: var(--rose);
+  color: var(--honey);
 }
 
 .hero__text {
@@ -467,10 +469,10 @@ button {
 .hero__signature {
   display: inline-flex;
   padding: 10px 20px;
-  background: linear-gradient(135deg, rgba(255, 196, 122, 0.2) 0%, rgba(255, 138, 107, 0.1) 100%);
+  background: linear-gradient(135deg, rgba(255, 209, 102, 0.25) 0%, rgba(255, 176, 133, 0.15) 100%);
   border-radius: 100px;
   font-weight: 600;
-  color: var(--coral);
+  color: var(--honey);
 }
 
 .hero__stats {
@@ -489,8 +491,8 @@ button {
 }
 
 .stat-card--accent {
-  background: linear-gradient(135deg, var(--rose) 0%, var(--coral) 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--honey) 0%, var(--peach) 100%);
+  color: var(--ink);
   border: none;
 }
 
@@ -533,7 +535,7 @@ button {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  color: var(--coral);
+  color: var(--honey);
   margin-bottom: 6px;
 }
 
@@ -588,7 +590,7 @@ button {
 }
 
 .heart-btn.is-active {
-  color: var(--rose);
+  color: var(--peach);
 }
 
 .spotlight-card__info {
@@ -603,7 +605,7 @@ button {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--coral);
+  color: var(--honey);
   margin-bottom: 8px;
 }
 
@@ -657,8 +659,8 @@ button {
 
 .search-box input:focus {
   outline: none;
-  border-color: var(--rose);
-  box-shadow: 0 0 0 4px rgba(232, 93, 117, 0.1);
+  border-color: var(--honey);
+  box-shadow: 0 0 0 4px rgba(245, 185, 66, 0.15);
 }
 
 .controls-group {
@@ -686,13 +688,6 @@ button {
 
 .upload-btn input {
   display: none;
-}
-
-/* Gallery Grid */
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
 }
 
 .memory-card {
@@ -737,7 +732,7 @@ button {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--coral);
+  color: var(--honey);
   margin: 0 0 4px;
 }
 
@@ -759,6 +754,55 @@ button {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Month Headers */
+.gallery-month-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 0 16px;
+  margin-top: 20px;
+  border-bottom: 2px solid var(--butter);
+}
+
+.gallery-month-header:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.gallery-month-header__icon {
+  font-size: 1.2rem;
+}
+
+.gallery-month-header__title {
+  font-family: "Fraunces", serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--ink);
+}
+
+.gallery-month-header__count {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-left: auto;
+  background: var(--butter);
+  padding: 4px 12px;
+  border-radius: 100px;
+}
+
+.gallery-month-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+  padding: 20px 0;
+}
+
+/* Update main gallery grid to be a simple container */
+.gallery-grid {
+  display: flex;
+  flex-direction: column;
 }
 
 .gallery-empty {
@@ -855,8 +899,8 @@ button {
 }
 
 .modal__close:hover {
-  background: var(--rose);
-  color: white;
+  background: var(--honey);
+  color: var(--ink);
 }
 
 .modal__image {
@@ -885,7 +929,7 @@ button {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--coral);
+  color: var(--honey);
   margin-bottom: 8px;
 }
 
@@ -924,7 +968,7 @@ button {
 
 #modalNote:focus {
   outline: none;
-  border-color: var(--rose);
+  border-color: var(--honey);
 }
 
 .modal__actions {
@@ -942,14 +986,14 @@ button {
 }
 
 .btn--primary {
-  background: linear-gradient(135deg, var(--rose) 0%, var(--coral) 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--honey) 0%, var(--peach) 100%);
+  color: var(--ink);
   grid-column: span 2;
 }
 
 .btn--primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(232, 93, 117, 0.3);
+  box-shadow: 0 8px 20px rgba(245, 185, 66, 0.35);
 }
 
 .btn--outline {
@@ -959,8 +1003,8 @@ button {
 }
 
 .btn--outline:hover {
-  border-color: var(--rose);
-  color: var(--rose);
+  border-color: var(--honey);
+  color: var(--honey);
 }
 
 .btn--danger {

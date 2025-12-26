@@ -125,23 +125,53 @@ const photoFiles = [
   "IMG-20251216-WA0034.jpg",
 ];
 
+// Sweet captions to randomly assign
+const sweetCaptions = [
+  "Us being us 💛",
+  "Golden moment",
+  "This smile though",
+  "Heart so full",
+  "My favorite human",
+  "Love this one",
+  "Pure happiness",
+  "Making memories",
+  "Together is my favorite",
+  "Can't stop smiling",
+  "Best day ever",
+  "You + Me = ❤️",
+  "Sunshine vibes",
+  "Forever mood",
+  "Living our story",
+  "Sweet moments",
+  "My happy place",
+  "Adventures with you",
+  "Cozy times",
+  "Simply perfect",
+];
+
 // Generate photo data from filenames
-const generatePhotoData = (filename) => {
+const generatePhotoData = (filename, index) => {
   // Extract date from filename (format: IMG-YYYYMMDD-WA####.jpg)
   const dateMatch = filename.match(/IMG-(\d{8})-/);
+  const caption = sweetCaptions[index % sweetCaptions.length];
+  
   if (dateMatch) {
     const dateStr = dateMatch[1];
     const year = dateStr.substring(0, 4);
     const month = dateStr.substring(4, 6);
+    const day = dateStr.substring(6, 8);
     const monthNames = [
-      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
     ];
     const monthName = monthNames[parseInt(month) - 1];
+    const monthShort = monthName.substring(0, 3);
     return {
       src: `assets/photos/${filename}`,
-      caption: `A beautiful memory`,
-      date: `${monthName} ${year}`,
+      caption: caption,
+      date: `${monthShort} ${day}, ${year}`,
+      monthYear: `${monthName} ${year}`,
+      sortDate: new Date(`${year}-${month}-${day}`),
       tags: [],
       note: "",
       isFavorite: false,
@@ -150,8 +180,10 @@ const generatePhotoData = (filename) => {
   }
   return {
     src: `assets/photos/${filename}`,
-    caption: `A beautiful memory`,
+    caption: caption,
     date: "2025",
+    monthYear: "2025",
+    sortDate: new Date(),
     tags: [],
     note: "",
     isFavorite: false,
@@ -159,7 +191,7 @@ const generatePhotoData = (filename) => {
   };
 };
 
-let photos = photoFiles.map(generatePhotoData);
+let photos = photoFiles.map((file, index) => generatePhotoData(file, index));
 let filteredPhotos = [...photos];
 let favoritesOnly = false;
 let sortNewestFirst = true;
@@ -238,23 +270,15 @@ const filterAndSortPhotos = () => {
     );
   }
 
-  // Sort
+  // Sort using sortDate
   if (sortNewestFirst) {
-    filteredPhotos.sort((a, b) => {
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
-      return dateB - dateA;
-    });
+    filteredPhotos.sort((a, b) => b.sortDate - a.sortDate);
   } else {
-    filteredPhotos.sort((a, b) => {
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
-      return dateA - dateB;
-    });
+    filteredPhotos.sort((a, b) => a.sortDate - b.sortDate);
   }
 };
 
-// Render gallery
+// Render gallery grouped by month/year
 const renderGallery = () => {
   const grid = byId("galleryGrid");
   const empty = byId("galleryEmpty");
@@ -269,54 +293,71 @@ const renderGallery = () => {
 
   if (empty) empty.hidden = true;
 
+  // Group photos by monthYear
+  const grouped = {};
+  filteredPhotos.forEach((photo) => {
+    const key = photo.monthYear || "Other";
+    if (!grouped[key]) {
+      grouped[key] = [];
+    }
+    grouped[key].push(photo);
+  });
+
   const fragment = document.createDocumentFragment();
+  let cardIndex = 0;
 
-  filteredPhotos.forEach((photo, index) => {
-    const card = document.createElement("article");
-    card.className = "memory-card";
-    card.style.animationDelay = `${index * 0.05}s`;
+  // Render each group
+  Object.entries(grouped).forEach(([monthYear, photos]) => {
+    // Month header
+    const header = document.createElement("div");
+    header.className = "gallery-month-header";
+    header.innerHTML = `
+      <span class="gallery-month-header__icon">📅</span>
+      <h3 class="gallery-month-header__title">${monthYear}</h3>
+      <span class="gallery-month-header__count">${photos.length} memories</span>
+    `;
+    fragment.appendChild(header);
 
-    const media = document.createElement("div");
-    media.className = "memory-card__media";
+    // Photos grid for this month
+    const monthGrid = document.createElement("div");
+    monthGrid.className = "gallery-month-grid";
 
-    const img = document.createElement("img");
-    img.src = photo.src;
-    img.alt = photo.caption;
-    img.loading = "lazy";
+    photos.forEach((photo) => {
+      const card = document.createElement("article");
+      card.className = "memory-card";
+      card.style.animationDelay = `${cardIndex * 0.03}s`;
+      cardIndex++;
 
-    const body = document.createElement("div");
-    body.className = "memory-card__body";
+      const media = document.createElement("div");
+      media.className = "memory-card__media";
 
-    const title = document.createElement("h3");
-    title.className = "memory-card__title";
-    title.textContent = photo.caption;
+      const img = document.createElement("img");
+      img.src = photo.src;
+      img.alt = photo.caption;
+      img.loading = "lazy";
 
-    const date = document.createElement("p");
-    date.className = "memory-card__date";
-    date.textContent = photo.date;
+      const body = document.createElement("div");
+      body.className = "memory-card__body";
 
-    const tags = document.createElement("div");
-    tags.className = "memory-card__tags";
-    if (photo.tags && photo.tags.length > 0) {
-      photo.tags.forEach((tag) => {
-        const tagEl = document.createElement("span");
-        tagEl.className = "tag";
-        tagEl.textContent = tag;
-        tags.appendChild(tagEl);
-      });
-    }
+      const title = document.createElement("h3");
+      title.className = "memory-card__title";
+      title.textContent = photo.caption;
 
-    media.appendChild(img);
-    body.appendChild(title);
-    body.appendChild(date);
-    if (photo.tags && photo.tags.length > 0) {
-      body.appendChild(tags);
-    }
-    card.appendChild(media);
-    card.appendChild(body);
+      const date = document.createElement("p");
+      date.className = "memory-card__date";
+      date.textContent = photo.date;
 
-    card.addEventListener("click", () => openModal(photo));
-    fragment.appendChild(card);
+      media.appendChild(img);
+      body.appendChild(title);
+      body.appendChild(date);
+      card.appendChild(media);
+      card.appendChild(body);
+
+      card.addEventListener("click", () => openModal(photo));
+      monthGrid.appendChild(card);
+    });
+
+    fragment.appendChild(monthGrid);
   });
 
   grid.appendChild(fragment);
