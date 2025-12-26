@@ -914,13 +914,18 @@ button {
 }
 
 .memory-card__date {
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: 0.85rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--primary-pink);
+  letter-spacing: 0.12em;
+  color: var(--text-color);
   margin: 0;
   display: block;
+  background: linear-gradient(135deg, var(--primary-pink) 0%, var(--text-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  padding: 2px 0;
 }
 
 .memory-card__title {
