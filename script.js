@@ -1,6 +1,6 @@
 const config = {
-  eyebrow: "Holiday Memories",
-  title: "Merry Christmas, Sofia",
+  eyebrow: "Memory Collage",
+  title: "For Sofia",
   subtitle: "A cozy collage of our favorite moments together.",
   noteTitle: "Why this collage",
   noteBody:
@@ -378,20 +378,42 @@ const renderGallery = () => {
       img.alt = photo.caption;
       img.loading = "lazy";
 
+      // Add heart button
+      const heartBtn = document.createElement("button");
+      heartBtn.className = "memory-card__heart";
+      heartBtn.innerHTML = "♥";
+      heartBtn.setAttribute("aria-label", "Toggle favorite");
+      if (photo.isFavorite) {
+        heartBtn.classList.add("is-active");
+      }
+
+      heartBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        photo.isFavorite = !photo.isFavorite;
+        heartBtn.classList.toggle("is-active", photo.isFavorite);
+        saveData();
+        updateStats();
+      });
+
       const body = document.createElement("div");
       body.className = "memory-card__body";
-
-      const title = document.createElement("h3");
-      title.className = "memory-card__title";
-      title.textContent = photo.caption;
 
       const date = document.createElement("p");
       date.className = "memory-card__date";
       date.textContent = photo.date;
 
-      media.appendChild(img);
-      body.appendChild(title);
       body.appendChild(date);
+
+      // Only show note if it exists
+      if (photo.note && photo.note.trim()) {
+        const note = document.createElement("p");
+        note.className = "memory-card__title";
+        note.textContent = photo.note;
+        body.appendChild(note);
+      }
+
+      media.appendChild(img);
+      media.appendChild(heartBtn);
       card.appendChild(media);
       card.appendChild(body);
 
@@ -847,9 +869,59 @@ const initGiftScreen = () => {
   }
 };
 
+// Theme Management
+const initThemeSwitcher = () => {
+  const themeToggle = byId("themeToggle");
+  const themeDropdown = byId("themeDropdown");
+  const themeOptions = document.querySelectorAll(".theme-option");
+
+  // Load saved theme
+  const savedTheme = localStorage.getItem("selectedTheme") || "soft-pink";
+  document.body.setAttribute("data-theme", savedTheme);
+  updateActiveTheme(savedTheme);
+
+  // Toggle dropdown
+  if (themeToggle) {
+    themeToggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      themeDropdown.hidden = !themeDropdown.hidden;
+    });
+  }
+
+  // Close dropdown when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!themeDropdown.contains(e.target) && e.target !== themeToggle) {
+      themeDropdown.hidden = true;
+    }
+  });
+
+  // Theme selection
+  themeOptions.forEach(option => {
+    option.addEventListener("click", () => {
+      const theme = option.getAttribute("data-theme");
+      document.body.setAttribute("data-theme", theme);
+      localStorage.setItem("selectedTheme", theme);
+      updateActiveTheme(theme);
+      themeDropdown.hidden = true;
+    });
+  });
+};
+
+const updateActiveTheme = (theme) => {
+  const themeOptions = document.querySelectorAll(".theme-option");
+  themeOptions.forEach(option => {
+    if (option.getAttribute("data-theme") === theme) {
+      option.classList.add("active");
+    } else {
+      option.classList.remove("active");
+    }
+  });
+};
+
 // Initialize
 const init = () => {
   initGiftScreen();
+  initThemeSwitcher();
   loadSavedData();
   applyConfig();
   filterAndSortPhotos();

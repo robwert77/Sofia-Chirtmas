@@ -17,16 +17,6 @@
           <button class="gift-open-btn" id="openGift">Enter</button>
         </div>
       </div>
-      <div class="snowflakes" aria-hidden="true">
-        <span class="snowflake">❄</span>
-        <span class="snowflake">❅</span>
-        <span class="snowflake">❆</span>
-        <span class="snowflake">❄</span>
-        <span class="snowflake">❅</span>
-        <span class="snowflake">❆</span>
-        <span class="snowflake">❄</span>
-        <span class="snowflake">❅</span>
-      </div>
     </div>
 
     <!-- Main App -->
@@ -42,17 +32,48 @@
         <div class="brand">
           <div class="brand__badge">S</div>
           <div class="brand__text">
-            <p class="eyebrow" id="eyebrow">Holiday Memories</p>
-            <h1 class="brand__title" id="title">Merry Christmas, Sofia</h1>
+            <p class="eyebrow" id="eyebrow">Memory Collage</p>
+            <h1 class="brand__title" id="title">For Sofia</h1>
           </div>
         </div>
         <div class="header-actions">
           <button class="chip" id="toggleFavorites" type="button" aria-pressed="false">
             ♥ Favorites
           </button>
+          <button class="chip" id="themeToggle" type="button">
+            🎨 Theme
+          </button>
           <button class="button-primary" id="shuffleSpotlight" type="button">
             ✨ Surprise Me
           </button>
+        </div>
+
+        <!-- Theme Selector Dropdown -->
+        <div class="theme-dropdown" id="themeDropdown" hidden>
+          <div class="theme-option" data-theme="soft-pink">
+            <div class="theme-preview" style="background: linear-gradient(135deg, #F6AFCB 0%, #F8CFE0 100%)"></div>
+            <span>Soft Pink</span>
+          </div>
+          <div class="theme-option" data-theme="hot-pink">
+            <div class="theme-preview" style="background: linear-gradient(135deg, #FF1493 0%, #FF69B4 100%)"></div>
+            <span>Hot Pink</span>
+          </div>
+          <div class="theme-option" data-theme="rose-gold">
+            <div class="theme-preview" style="background: linear-gradient(135deg, #B76E79 0%, #E8B4B8 100%)"></div>
+            <span>Rose Gold</span>
+          </div>
+          <div class="theme-option" data-theme="lavender">
+            <div class="theme-preview" style="background: linear-gradient(135deg, #C8A2C8 0%, #E6D5E6 100%)"></div>
+            <span>Lavender</span>
+          </div>
+          <div class="theme-option" data-theme="peach">
+            <div class="theme-preview" style="background: linear-gradient(135deg, #FFAB91 0%, #FFE5B4 100%)"></div>
+            <span>Peach Dream</span>
+          </div>
+          <div class="theme-option" data-theme="mint">
+            <div class="theme-preview" style="background: linear-gradient(135deg, #98D8C8 0%, #D4F1E8 100%)"></div>
+            <span>Mint Fresh</span>
+          </div>
         </div>
       </header>
 
@@ -60,7 +81,7 @@
         <!-- Hero Section -->
         <section class="hero">
           <div class="hero__intro">
-            <span class="hero__badge">🎄 Christmas 2025</span>
+            <span class="hero__badge">💕 Our Story</span>
             <h2 class="hero__title">
               You are my<br>
               <em>sunshine</em>
