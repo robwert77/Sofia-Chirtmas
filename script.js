@@ -2,13 +2,30 @@ const config = {
   eyebrow: "Holiday Memories",
   title: "Merry Christmas, Sofia",
   subtitle: "A cozy collage of our favorite moments together.",
-  signature: "With love, Rob",
   noteTitle: "Why this collage",
   noteBody:
     "Every photo is a little reminder that the best part of every season is you.",
   footerNote:
-    "Here is to more cocoa nights, more adventures, and a hundred more Christmases together.",
+    "Made with love",
 };
+
+// Rotating quotes
+const quotes = [
+  "In every moment captured, there's a thousand moments cherished.",
+  "The best moments are the ones we share together.",
+  "Every picture tells a story, and ours is my favorite.",
+  "Together is my favorite place to be.",
+  "Life's greatest adventure is found in the simplest moments with you.",
+  "You're the reason every day feels like a celebration.",
+  "In a world full of moments, ours are the ones that matter most.",
+  "Every memory with you is a treasure I hold close to my heart.",
+  "With you, every season becomes magical.",
+  "Our story is written in photographs and painted with love.",
+  "The best days are the ones spent making memories with you.",
+  "Time spent with you is my favorite time."
+];
+
+let currentQuoteIndex = 0;
 
 // Get all photo files from the assets/photos directory
 const photoFiles = [
@@ -195,6 +212,7 @@ let photos = photoFiles.map((file, index) => generatePhotoData(file, index));
 let filteredPhotos = [...photos];
 let favoritesOnly = false;
 let sortNewestFirst = true;
+let sortBySeason = false;
 let currentSpotlightIndex = 0;
 let searchQuery = "";
 let currentModalPhoto = null;
@@ -249,6 +267,15 @@ const saveData = () => {
   }
 };
 
+// Get season from date
+const getSeason = (date) => {
+  const month = date.getMonth();
+  if (month >= 2 && month <= 4) return { name: "Spring", order: 0, emoji: "🌸" };
+  if (month >= 5 && month <= 7) return { name: "Summer", order: 1, emoji: "☀️" };
+  if (month >= 8 && month <= 10) return { name: "Fall", order: 2, emoji: "🍂" };
+  return { name: "Winter", order: 3, emoji: "❄️" };
+};
+
 // Filter and sort photos
 const filterAndSortPhotos = () => {
   filteredPhotos = [...photos];
@@ -270,8 +297,17 @@ const filterAndSortPhotos = () => {
     );
   }
 
-  // Sort using sortDate
-  if (sortNewestFirst) {
+  // Sort by season or date
+  if (sortBySeason) {
+    filteredPhotos.sort((a, b) => {
+      const seasonA = getSeason(a.sortDate);
+      const seasonB = getSeason(b.sortDate);
+      if (seasonA.order !== seasonB.order) {
+        return seasonA.order - seasonB.order;
+      }
+      return b.sortDate - a.sortDate;
+    });
+  } else if (sortNewestFirst) {
     filteredPhotos.sort((a, b) => b.sortDate - a.sortDate);
   } else {
     filteredPhotos.sort((a, b) => a.sortDate - b.sortDate);
@@ -293,10 +329,16 @@ const renderGallery = () => {
 
   if (empty) empty.hidden = true;
 
-  // Group photos by monthYear
+  // Group photos by season or monthYear
   const grouped = {};
   filteredPhotos.forEach((photo) => {
-    const key = photo.monthYear || "Other";
+    let key;
+    if (sortBySeason) {
+      const season = getSeason(photo.sortDate);
+      key = `${season.emoji} ${season.name}`;
+    } else {
+      key = photo.monthYear || "Other";
+    }
     if (!grouped[key]) {
       grouped[key] = [];
     }
@@ -307,13 +349,13 @@ const renderGallery = () => {
   let cardIndex = 0;
 
   // Render each group
-  Object.entries(grouped).forEach(([monthYear, photos]) => {
-    // Month header
+  Object.entries(grouped).forEach(([groupName, photos]) => {
+    // Group header
     const header = document.createElement("div");
     header.className = "gallery-month-header";
     header.innerHTML = `
-      <span class="gallery-month-header__icon">📅</span>
-      <h3 class="gallery-month-header__title">${monthYear}</h3>
+      <span class="gallery-month-header__icon">${sortBySeason ? "" : "📅"}</span>
+      <h3 class="gallery-month-header__title">${groupName}</h3>
       <span class="gallery-month-header__count">${photos.length} memories</span>
     `;
     fragment.appendChild(header);
@@ -450,6 +492,8 @@ const updateStats = () => {
   const favorites = byId("statFavorites");
   const moments = byId("statMoments");
   const collections = byId("statCollections");
+  const days = byId("statDays");
+  const totalPhotosCount = byId("totalPhotosCount");
 
   if (total) total.textContent = photos.length;
   if (favorites) {
@@ -458,6 +502,16 @@ const updateStats = () => {
   }
   if (moments) moments.textContent = photos.length;
   if (collections) collections.textContent = Math.ceil(photos.length / 12);
+  if (totalPhotosCount) totalPhotosCount.textContent = photos.length;
+
+  // Calculate days together since April 14, 2025
+  if (days) {
+    const startDate = new Date(2025, 3, 14); // Month is 0-indexed, so 3 = April
+    const today = new Date();
+    const diffTime = Math.abs(today - startDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    days.textContent = diffDays;
+  }
 };
 
 // Render highlights
@@ -578,8 +632,26 @@ const setupEventListeners = () => {
   const toggleSort = byId("toggleSort");
   if (toggleSort) {
     toggleSort.addEventListener("click", () => {
-      sortNewestFirst = !sortNewestFirst;
-      toggleSort.textContent = sortNewestFirst ? "Newest first" : "Oldest first";
+      if (!sortBySeason) {
+        sortNewestFirst = !sortNewestFirst;
+        toggleSort.textContent = sortNewestFirst ? "↓ Newest" : "↑ Oldest";
+        filterAndSortPhotos();
+        renderGallery();
+        renderSpotlight();
+      }
+    });
+  }
+
+  // Toggle season sort
+  const toggleSeason = byId("toggleSeason");
+  if (toggleSeason) {
+    toggleSeason.addEventListener("click", () => {
+      sortBySeason = !sortBySeason;
+      toggleSeason.classList.toggle("is-active", sortBySeason);
+      if (sortBySeason && toggleSort) {
+        toggleSort.textContent = "↓ Newest";
+        sortNewestFirst = true;
+      }
       filterAndSortPhotos();
       renderGallery();
       renderSpotlight();
@@ -592,9 +664,13 @@ const setupEventListeners = () => {
     clearFilters.addEventListener("click", () => {
       favoritesOnly = false;
       searchQuery = "";
+      sortBySeason = false;
       if (toggleFavorites) {
         toggleFavorites.classList.remove("is-active");
         toggleFavorites.setAttribute("aria-pressed", "false");
+      }
+      if (toggleSeason) {
+        toggleSeason.classList.remove("is-active");
       }
       if (searchInput) searchInput.value = "";
       filterAndSortPhotos();
@@ -711,6 +787,27 @@ const setupEventListeners = () => {
         photoUpload.value = "";
       }
     });
+  }
+
+  // Quote refresh button
+  const refreshQuote = byId("refreshQuote");
+  if (refreshQuote) {
+    refreshQuote.addEventListener("click", () => {
+      rotateQuote();
+    });
+  }
+};
+
+// Rotate quote function
+const rotateQuote = () => {
+  currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+  const quoteElement = byId("rotatingQuote");
+  if (quoteElement) {
+    quoteElement.style.opacity = "0";
+    setTimeout(() => {
+      quoteElement.textContent = quotes[currentQuoteIndex];
+      quoteElement.style.opacity = "1";
+    }, 200);
   }
 };
 

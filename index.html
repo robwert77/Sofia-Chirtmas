@@ -7,20 +7,14 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <!-- Gift Opening Screen -->
+    <!-- Welcome Screen -->
     <div class="gift-screen" id="giftScreen">
       <div class="gift-content">
-        <div class="gift-box" id="giftBox">
-          <div class="gift-lid">
-            <div class="gift-bow"></div>
-          </div>
-          <div class="gift-base"></div>
-        </div>
         <div class="gift-text">
-          <p class="gift-label">A Special Gift For</p>
-          <h1 class="gift-name">Sofia</h1>
-          <p class="gift-from">From Rob, with all my love ❤️</p>
-          <button class="gift-open-btn" id="openGift">Open Your Gift</button>
+          <p class="gift-label">WELCOME TO</p>
+          <h1 class="gift-name">Our Memories</h1>
+          <p class="gift-from">A collection of our favorite moments together.<br>Every photo tells a story, every memory is precious.</p>
+          <button class="gift-open-btn" id="openGift">Enter</button>
         </div>
       </div>
       <div class="snowflakes" aria-hidden="true">
@@ -68,25 +62,39 @@
           <div class="hero__intro">
             <span class="hero__badge">🎄 Christmas 2025</span>
             <h2 class="hero__title">
-              Every photo tells<br>
-              <em>our story</em>
+              You are my<br>
+              <em>sunshine</em>
             </h2>
             <p class="hero__text" id="subtitle">
-              A cozy collage of our favorite moments together. 
+              A cozy collage of our favorite moments together.
               Because every season is better with you.
             </p>
-            <div class="hero__signature" id="signature">With love, Rob ❤️</div>
           </div>
-          
+
           <div class="hero__stats">
+            <div class="stat-card stat-card--accent">
+              <span class="stat-card__value" id="statDays">0</span>
+              <span class="stat-card__label">Days Together</span>
+            </div>
             <div class="stat-card">
               <span class="stat-card__value" id="statTotal">0</span>
               <span class="stat-card__label">Memories</span>
             </div>
-            <div class="stat-card stat-card--accent">
+            <div class="stat-card">
               <span class="stat-card__value" id="statFavorites">0</span>
               <span class="stat-card__label">Favorites</span>
             </div>
+          </div>
+        </section>
+
+        <!-- Quote Section -->
+        <section class="quote-section">
+          <div class="quote-card">
+            <div class="quote-icon">💭</div>
+            <blockquote class="quote-text" id="rotatingQuote">
+              "In every moment captured, there's a thousand moments cherished."
+            </blockquote>
+            <button class="quote-refresh" id="refreshQuote" type="button">✨ New Quote</button>
           </div>
         </section>
 
@@ -134,6 +142,7 @@
               <input type="file" id="photoUpload" accept="image/*" multiple>
             </label>
             <button class="chip" id="toggleSort" type="button">↓ Newest</button>
+            <button class="chip" id="toggleSeason" type="button">🌸 By Season</button>
             <button class="chip chip--subtle" id="clearFilters" type="button">Clear</button>
           </div>
         </section>
