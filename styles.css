@@ -24,6 +24,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   font-family: "Sora", system-ui, sans-serif;
@@ -41,6 +45,17 @@ button {
   cursor: pointer;
   border: none;
   background: none;
+}
+
+button:focus-visible {
+  outline: 3px solid var(--primary-pink);
+  outline-offset: 3px;
+}
+
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--primary-pink);
+  outline-offset: 2px;
 }
 
 /* ========== WELCOME SCREEN ========== */
@@ -1095,6 +1110,86 @@ button {
   color: var(--ink);
 }
 
+/* Modal Navigation Arrows */
+.modal__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 50%;
+  font-size: 2rem;
+  color: var(--ink);
+  z-index: 20;
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s ease;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.modal__nav--prev {
+  left: 20px;
+}
+
+.modal__nav--next {
+  right: 20px;
+}
+
+.modal__nav:hover {
+  background: white;
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: var(--shadow-lg);
+  color: var(--primary-pink);
+}
+
+.modal__nav:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+/* Modal Image Controls */
+.modal__image-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  padding: 12px 16px;
+  border-radius: 100px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal__image:hover .modal__image-controls {
+  opacity: 1;
+}
+
+.image-control-btn {
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 100px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.image-control-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+.image-control-btn:active {
+  transform: translateY(0);
+}
+
 .modal__image {
   background: #f0f0f0;
   display: flex;
@@ -1107,6 +1202,12 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+.modal__image img:fullscreen {
+  object-fit: contain;
+  background: black;
 }
 
 .modal__content {
@@ -1258,6 +1359,142 @@ button {
   .controls-group {
     justify-content: center;
   }
+
+  /* Adjust modal controls for mobile */
+  .modal__nav {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
+
+  .modal__nav--prev {
+    left: 10px;
+  }
+
+  .modal__nav--next {
+    right: 10px;
+  }
+
+  .modal__image-controls {
+    opacity: 1;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 8px 12px;
+  }
+
+  .image-control-btn {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+  }
+}
+
+/* ========== HELP MODAL ========== */
+.help-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.help-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.help-modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(44, 30, 36, 0.85);
+  backdrop-filter: blur(10px);
+}
+
+.help-modal__panel {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  background: var(--card);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  box-shadow: var(--shadow-lg);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.help-modal__title {
+  font-family: "Fraunces", serif;
+  font-size: 2rem;
+  margin: 0 0 30px;
+  color: var(--ink);
+}
+
+.help-modal__content {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.shortcut-group h3 {
+  font-family: "Fraunces", serif;
+  font-size: 1.2rem;
+  margin: 0 0 16px;
+  color: var(--primary-pink);
+}
+
+.shortcut-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.shortcut-item:last-child {
+  border-bottom: none;
+}
+
+.shortcut-item kbd {
+  display: inline-block;
+  padding: 6px 12px;
+  background: var(--background);
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-width: 40px;
+  text-align: center;
+}
+
+.shortcut-item span {
+  flex: 1;
+  color: var(--muted);
+}
+
+.help-tips {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.help-tips li {
+  padding: 10px 0 10px 30px;
+  position: relative;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.help-tips li::before {
+  content: "💡";
+  position: absolute;
+  left: 0;
+  top: 10px;
 }
 
 @media (prefers-reduced-motion: reduce) {

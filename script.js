@@ -216,6 +216,9 @@ let sortBySeason = false;
 let currentSpotlightIndex = 0;
 let searchQuery = "";
 let currentModalPhoto = null;
+let currentModalIndex = 0;
+let isSlideshowActive = false;
+let slideshowInterval = null;
 
 const highlights = [
   {
@@ -462,13 +465,20 @@ const renderSpotlight = () => {
   }
 };
 
-// Open modal
-const openModal = (photo) => {
-  const modal = byId("photoModal");
-  if (!modal) return;
+// Navigate to next photo in modal
+const navigateModalPhoto = (direction) => {
+  if (filteredPhotos.length === 0) return;
 
-  currentModalPhoto = photo;
+  currentModalIndex = (currentModalIndex + direction + filteredPhotos.length) % filteredPhotos.length;
+  const photo = filteredPhotos[currentModalIndex];
+  if (photo) {
+    currentModalPhoto = photo;
+    updateModalContent(photo);
+  }
+};
 
+// Update modal content
+const updateModalContent = (photo) => {
   const img = byId("modalImage");
   const caption = byId("modalCaption");
   const date = byId("modalDate");
@@ -476,7 +486,14 @@ const openModal = (photo) => {
   const tags = byId("modalTags");
   const favoriteBtn = byId("modalFavorite");
 
-  if (img) img.src = photo.src;
+  // Add loading state
+  if (img) {
+    img.style.opacity = "0.5";
+    img.onload = () => {
+      img.style.opacity = "1";
+    };
+    img.src = photo.src;
+  }
   if (caption) caption.textContent = photo.caption;
   if (date) date.textContent = photo.date;
   if (note) note.value = photo.note || "";
@@ -494,18 +511,95 @@ const openModal = (photo) => {
   if (favoriteBtn) {
     favoriteBtn.textContent = photo.isFavorite ? "♥ Favorited" : "♥ Favorite";
   }
+};
+
+// Open modal
+const openModal = (photo) => {
+  const modal = byId("photoModal");
+  if (!modal) return;
+
+  currentModalPhoto = photo;
+  currentModalIndex = filteredPhotos.findIndex(p => p.id === photo.id);
+  if (currentModalIndex === -1) currentModalIndex = 0;
+
+  updateModalContent(photo);
 
   modal.classList.add("is-open");
   modal.setAttribute("aria-hidden", "false");
+
+  // Focus on close button for accessibility
+  const closeBtn = byId("closeModal");
+  if (closeBtn) {
+    setTimeout(() => closeBtn.focus(), 100);
+  }
 };
 
 // Close modal
 const closeModal = () => {
   const modal = byId("photoModal");
   if (!modal) return;
+  stopSlideshow();
   modal.classList.remove("is-open");
   modal.setAttribute("aria-hidden", "true");
   currentModalPhoto = null;
+};
+
+// Slideshow functions
+const startSlideshow = () => {
+  if (isSlideshowActive) return;
+  isSlideshowActive = true;
+  const btn = byId("slideshowBtn");
+  if (btn) btn.textContent = "⏸ Pause Slideshow";
+
+  slideshowInterval = setInterval(() => {
+    navigateModalPhoto(1);
+  }, 3000);
+};
+
+const stopSlideshow = () => {
+  if (!isSlideshowActive) return;
+  isSlideshowActive = false;
+  const btn = byId("slideshowBtn");
+  if (btn) btn.textContent = "▶ Start Slideshow";
+
+  if (slideshowInterval) {
+    clearInterval(slideshowInterval);
+    slideshowInterval = null;
+  }
+};
+
+const toggleSlideshow = () => {
+  if (isSlideshowActive) {
+    stopSlideshow();
+  } else {
+    startSlideshow();
+  }
+};
+
+// Fullscreen function
+const toggleFullscreen = () => {
+  const img = byId("modalImage");
+  if (!img) return;
+
+  if (!document.fullscreenElement) {
+    img.requestFullscreen().catch(err => {
+      console.error(`Error attempting to enable fullscreen: ${err.message}`);
+    });
+  } else {
+    document.exitFullscreen();
+  }
+};
+
+// Download photo function
+const downloadPhoto = () => {
+  if (!currentModalPhoto) return;
+
+  const link = document.createElement('a');
+  link.href = currentModalPhoto.src;
+  link.download = `memory-${currentModalPhoto.date.replace(/\s+/g, '-')}.jpg`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 };
 
 // Update stats
@@ -818,6 +912,106 @@ const setupEventListeners = () => {
       rotateQuote();
     });
   }
+
+  // Keyboard navigation
+  document.addEventListener("keydown", (e) => {
+    const modal = byId("photoModal");
+    const isModalOpen = modal && modal.classList.contains("is-open");
+
+    if (isModalOpen) {
+      // ESC to close modal
+      if (e.key === "Escape") {
+        closeModal();
+      }
+      // Arrow keys to navigate
+      else if (e.key === "ArrowRight") {
+        navigateModalPhoto(1);
+      }
+      else if (e.key === "ArrowLeft") {
+        navigateModalPhoto(-1);
+      }
+      // F for fullscreen
+      else if (e.key === "f" || e.key === "F") {
+        toggleFullscreen();
+      }
+      // S for slideshow
+      else if (e.key === "s" || e.key === "S") {
+        toggleSlideshow();
+      }
+      // D for download
+      else if (e.key === "d" || e.key === "D") {
+        downloadPhoto();
+      }
+    }
+  });
+
+  // Slideshow button
+  const slideshowBtn = byId("slideshowBtn");
+  if (slideshowBtn) {
+    slideshowBtn.addEventListener("click", toggleSlideshow);
+  }
+
+  // Fullscreen button
+  const fullscreenBtn = byId("fullscreenBtn");
+  if (fullscreenBtn) {
+    fullscreenBtn.addEventListener("click", toggleFullscreen);
+  }
+
+  // Download button
+  const downloadBtn = byId("downloadBtn");
+  if (downloadBtn) {
+    downloadBtn.addEventListener("click", downloadPhoto);
+  }
+
+  // Navigation buttons
+  const prevBtn = byId("prevPhoto");
+  if (prevBtn) {
+    prevBtn.addEventListener("click", () => navigateModalPhoto(-1));
+  }
+
+  const nextBtn = byId("nextPhoto");
+  if (nextBtn) {
+    nextBtn.addEventListener("click", () => navigateModalPhoto(1));
+  }
+
+  // Help modal
+  const helpBtn = byId("helpBtn");
+  const helpModal = byId("helpModal");
+  const closeHelp = byId("closeHelp");
+  const helpOverlay = document.querySelector("[data-help-close]");
+
+  if (helpBtn && helpModal) {
+    helpBtn.addEventListener("click", () => {
+      helpModal.classList.add("is-open");
+      helpModal.setAttribute("aria-hidden", "false");
+    });
+  }
+
+  const closeHelpModal = () => {
+    if (helpModal) {
+      helpModal.classList.remove("is-open");
+      helpModal.setAttribute("aria-hidden", "true");
+    }
+  };
+
+  if (closeHelp) {
+    closeHelp.addEventListener("click", closeHelpModal);
+  }
+
+  if (helpOverlay) {
+    helpOverlay.addEventListener("click", closeHelpModal);
+  }
+
+  // Close help modal with ESC when photo modal is not open
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      const photoModal = byId("photoModal");
+      const isPhotoModalOpen = photoModal && photoModal.classList.contains("is-open");
+      if (!isPhotoModalOpen && helpModal && helpModal.classList.contains("is-open")) {
+        closeHelpModal();
+      }
+    }
+  });
 };
 
 // Rotate quote function

@@ -43,6 +43,9 @@
           <button class="chip" id="themeToggle" type="button">
             🎨 Theme
           </button>
+          <button class="chip" id="helpBtn" type="button" title="Show keyboard shortcuts">
+            ? Help
+          </button>
           <button class="button-primary" id="shuffleSpotlight" type="button">
             ✨ Surprise Me
           </button>
@@ -191,23 +194,80 @@
     <div class="modal" id="photoModal" aria-hidden="true">
       <div class="modal__overlay" data-modal-close="true"></div>
       <div class="modal__panel" role="dialog" aria-modal="true">
-        <button class="modal__close" id="closeModal" type="button">✕</button>
+        <button class="modal__close" id="closeModal" type="button" aria-label="Close modal">✕</button>
+
+        <!-- Navigation Arrows -->
+        <button class="modal__nav modal__nav--prev" id="prevPhoto" type="button" aria-label="Previous photo">‹</button>
+        <button class="modal__nav modal__nav--next" id="nextPhoto" type="button" aria-label="Next photo">›</button>
+
         <div class="modal__image">
           <img id="modalImage" alt="" loading="lazy" />
+
+          <!-- Image Controls -->
+          <div class="modal__image-controls">
+            <button class="image-control-btn" id="slideshowBtn" type="button" title="Start slideshow (S)">▶ Start Slideshow</button>
+            <button class="image-control-btn" id="fullscreenBtn" type="button" title="Fullscreen (F)">⛶ Fullscreen</button>
+            <button class="image-control-btn" id="downloadBtn" type="button" title="Download (D)">↓ Download</button>
+          </div>
         </div>
+
         <div class="modal__content">
           <span class="modal__date" id="modalDate"></span>
           <h3 class="modal__caption" id="modalCaption"></h3>
-          
+
           <div class="modal__note-section">
             <label class="modal__label" for="modalNote">Your Note</label>
             <textarea id="modalNote" rows="3" placeholder="Write something sweet about this memory..."></textarea>
           </div>
-          
+
           <div class="modal__actions">
             <button class="btn btn--primary" id="saveNote" type="button">Save Note</button>
             <button class="btn btn--outline" id="modalFavorite" type="button">♥ Favorite</button>
             <button class="btn btn--danger" id="modalDelete" type="button">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="help-modal" id="helpModal" aria-hidden="true">
+      <div class="help-modal__overlay" data-help-close="true"></div>
+      <div class="help-modal__panel" role="dialog" aria-modal="true">
+        <button class="modal__close" id="closeHelp" type="button" aria-label="Close help">✕</button>
+        <h2 class="help-modal__title">Keyboard Shortcuts</h2>
+        <div class="help-modal__content">
+          <div class="shortcut-group">
+            <h3>Photo Viewer</h3>
+            <div class="shortcut-item">
+              <kbd>←</kbd><kbd>→</kbd>
+              <span>Navigate between photos</span>
+            </div>
+            <div class="shortcut-item">
+              <kbd>Esc</kbd>
+              <span>Close photo viewer</span>
+            </div>
+            <div class="shortcut-item">
+              <kbd>F</kbd>
+              <span>Toggle fullscreen</span>
+            </div>
+            <div class="shortcut-item">
+              <kbd>S</kbd>
+              <span>Start/stop slideshow</span>
+            </div>
+            <div class="shortcut-item">
+              <kbd>D</kbd>
+              <span>Download current photo</span>
+            </div>
+          </div>
+          <div class="shortcut-group">
+            <h3>Tips</h3>
+            <ul class="help-tips">
+              <li>Click on any photo to view it in detail</li>
+              <li>Add personal notes to your favorite memories</li>
+              <li>Use the search to find specific memories</li>
+              <li>Try different themes to change the color palette</li>
+              <li>Upload your own photos using the + Upload button</li>
+            </ul>
           </div>
         </div>
       </div>
