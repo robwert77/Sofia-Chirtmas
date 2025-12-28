@@ -40,11 +40,17 @@
           <button class="chip" id="toggleFavorites" type="button" aria-pressed="false">
             ♥ Favorites
           </button>
+          <button class="chip" id="slideshowBtn" type="button">
+            ▶ Slideshow
+          </button>
           <button class="chip" id="themeToggle" type="button">
             🎨 Theme
           </button>
           <button class="button-primary" id="shuffleSpotlight" type="button">
             ✨ Surprise Me
+          </button>
+          <button class="chip chip--undo" id="undoDeleteBtn" type="button" hidden>
+            ↩ Undo
           </button>
         </div>
 
@@ -73,6 +79,14 @@
           <div class="theme-option" data-theme="mint">
             <div class="theme-preview" style="background: linear-gradient(135deg, #98D8C8 0%, #D4F1E8 100%)"></div>
             <span>Mint Fresh</span>
+          </div>
+          <div class="theme-option" data-theme="ocean">
+            <div class="theme-preview" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)"></div>
+            <span>Ocean Breeze</span>
+          </div>
+          <div class="theme-option" data-theme="sunset">
+            <div class="theme-preview" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%)"></div>
+            <span>Sunset Glow</span>
           </div>
         </div>
       </header>
@@ -190,6 +204,12 @@
     <!-- Photo Modal -->
     <div class="modal" id="photoModal" aria-hidden="true">
       <div class="modal__overlay" data-modal-close="true"></div>
+      <button class="modal__nav modal__nav--prev" id="prevPhoto" type="button" aria-label="Previous photo">
+        ‹
+      </button>
+      <button class="modal__nav modal__nav--next" id="nextPhoto" type="button" aria-label="Next photo">
+        ›
+      </button>
       <div class="modal__panel" role="dialog" aria-modal="true">
         <button class="modal__close" id="closeModal" type="button">✕</button>
         <div class="modal__image">

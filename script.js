@@ -216,6 +216,10 @@ let sortBySeason = false;
 let currentSpotlightIndex = 0;
 let searchQuery = "";
 let currentModalPhoto = null;
+let searchTimeout = null;
+let deletedPhotosStack = []; // For undo functionality
+let slideshowInterval = null;
+let isSlideshowPlaying = false;
 
 const highlights = [
   {
@@ -239,6 +243,153 @@ const setText = (id, value) => {
   if (el) {
     el.textContent = value;
   }
+};
+
+// Debounce function for search input
+const debounce = (func, wait) => {
+  return (...args) => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => func.apply(this, args), wait);
+  };
+};
+
+// Toast notification system
+const showToast = (message, type = "success", duration = 3000) => {
+  // Remove existing toast if any
+  const existingToast = document.querySelector(".toast");
+  if (existingToast) {
+    existingToast.remove();
+  }
+
+  const toast = document.createElement("div");
+  toast.className = `toast toast--${type}`;
+
+  const icons = {
+    success: "✓",
+    error: "✕",
+    info: "ℹ",
+    warning: "⚠"
+  };
+
+  toast.innerHTML = `
+    <span class="toast__icon">${icons[type] || icons.info}</span>
+    <span class="toast__message">${message}</span>
+  `;
+
+  document.body.appendChild(toast);
+
+  // Trigger animation
+  requestAnimationFrame(() => {
+    toast.classList.add("toast--visible");
+  });
+
+  // Auto remove
+  setTimeout(() => {
+    toast.classList.remove("toast--visible");
+    setTimeout(() => toast.remove(), 300);
+  }, duration);
+};
+
+// Get current modal photo index
+const getCurrentModalIndex = () => {
+  if (!currentModalPhoto) return -1;
+  return filteredPhotos.findIndex((p) => p.id === currentModalPhoto.id);
+};
+
+// Navigate to next/previous photo in modal
+const navigateModal = (direction) => {
+  const currentIndex = getCurrentModalIndex();
+  if (currentIndex === -1) return;
+
+  let newIndex = currentIndex + direction;
+  if (newIndex < 0) newIndex = filteredPhotos.length - 1;
+  if (newIndex >= filteredPhotos.length) newIndex = 0;
+
+  openModal(filteredPhotos[newIndex]);
+};
+
+// Slideshow functions
+const startSlideshow = () => {
+  if (filteredPhotos.length === 0) return;
+
+  isSlideshowPlaying = true;
+  const slideshowBtn = byId("slideshowBtn");
+  if (slideshowBtn) {
+    slideshowBtn.innerHTML = "⏸ Pause";
+    slideshowBtn.classList.add("is-playing");
+  }
+
+  // Open first photo if modal not open
+  if (!currentModalPhoto) {
+    openModal(filteredPhotos[0]);
+  }
+
+  slideshowInterval = setInterval(() => {
+    navigateModal(1);
+  }, 3000);
+
+  showToast("Slideshow started", "info");
+};
+
+const stopSlideshow = () => {
+  isSlideshowPlaying = false;
+  const slideshowBtn = byId("slideshowBtn");
+  if (slideshowBtn) {
+    slideshowBtn.innerHTML = "▶ Slideshow";
+    slideshowBtn.classList.remove("is-playing");
+  }
+
+  if (slideshowInterval) {
+    clearInterval(slideshowInterval);
+    slideshowInterval = null;
+  }
+};
+
+const toggleSlideshow = () => {
+  if (isSlideshowPlaying) {
+    stopSlideshow();
+  } else {
+    startSlideshow();
+  }
+};
+
+// Undo delete functionality
+const undoDelete = () => {
+  if (deletedPhotosStack.length === 0) return;
+
+  const restored = deletedPhotosStack.pop();
+  photos.splice(restored.index, 0, restored.photo);
+  saveData();
+  filterAndSortPhotos();
+  renderGallery();
+  renderSpotlight();
+  updateStats();
+
+  showToast("Photo restored!", "success");
+
+  // Hide undo button if stack is empty
+  if (deletedPhotosStack.length === 0) {
+    const undoBtn = byId("undoDeleteBtn");
+    if (undoBtn) undoBtn.hidden = true;
+  }
+};
+
+// File validation
+const validateFile = (file) => {
+  const validTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+  const maxSize = 10 * 1024 * 1024; // 10MB
+
+  if (!validTypes.includes(file.type)) {
+    showToast(`Invalid file type: ${file.name}. Please use JPG, PNG, GIF, or WebP.`, "error");
+    return false;
+  }
+
+  if (file.size > maxSize) {
+    showToast(`File too large: ${file.name}. Maximum size is 10MB.`, "error");
+    return false;
+  }
+
+  return true;
 };
 
 // Load saved data from localStorage
@@ -506,6 +657,7 @@ const closeModal = () => {
   modal.classList.remove("is-open");
   modal.setAttribute("aria-hidden", "true");
   currentModalPhoto = null;
+  stopSlideshow();
 };
 
 // Update stats
@@ -639,14 +791,18 @@ const setupEventListeners = () => {
     });
   }
 
-  // Search
+  // Search with debouncing
   const searchInput = byId("searchInput");
   if (searchInput) {
-    searchInput.addEventListener("input", (e) => {
-      searchQuery = e.target.value;
+    const debouncedSearch = debounce(() => {
       filterAndSortPhotos();
       renderGallery();
       renderSpotlight();
+    }, 300);
+
+    searchInput.addEventListener("input", (e) => {
+      searchQuery = e.target.value;
+      debouncedSearch();
     });
   }
 
@@ -712,25 +868,6 @@ const setupEventListeners = () => {
     modalOverlay.addEventListener("click", closeModal);
   }
 
-  // Save note
-  const saveNote = byId("saveNote");
-  if (saveNote) {
-    saveNote.addEventListener("click", () => {
-      const noteInput = byId("modalNote");
-      if (currentModalPhoto && noteInput) {
-        const photoIndex = photos.findIndex((p) => p.id === currentModalPhoto.id);
-        if (photoIndex !== -1) {
-          photos[photoIndex].note = noteInput.value;
-          saveData();
-          closeModal();
-          filterAndSortPhotos();
-          renderSpotlight();
-          renderGallery();
-        }
-      }
-    });
-  }
-
   // Modal favorite
   const modalFavorite = byId("modalFavorite");
   if (modalFavorite) {
@@ -753,16 +890,22 @@ const setupEventListeners = () => {
     });
   }
 
-  // Modal delete
+  // Modal delete with undo support
   const modalDelete = byId("modalDelete");
   if (modalDelete) {
     modalDelete.addEventListener("click", () => {
       if (currentModalPhoto) {
         // Confirm deletion
-        if (confirm("Are you sure you want to delete this photo? This cannot be undone.")) {
+        if (confirm("Delete this photo? You can undo this action.")) {
           // Remove from photos array
           const photoIndex = photos.findIndex((p) => p.id === currentModalPhoto.id);
           if (photoIndex !== -1) {
+            // Store for undo
+            deletedPhotosStack.push({
+              photo: { ...photos[photoIndex] },
+              index: photoIndex
+            });
+
             photos.splice(photoIndex, 1);
             saveData();
             closeModal();
@@ -770,38 +913,64 @@ const setupEventListeners = () => {
             renderGallery();
             renderSpotlight();
             updateStats();
+
+            // Show undo button
+            const undoBtn = byId("undoDeleteBtn");
+            if (undoBtn) undoBtn.hidden = false;
+
+            showToast("Photo deleted. Click Undo to restore.", "info", 5000);
           }
         }
       }
     });
   }
 
-  // Photo upload
+  // Photo upload with validation
   const photoUpload = byId("photoUpload");
   if (photoUpload) {
     photoUpload.addEventListener("change", (e) => {
       const files = e.target.files;
       if (files && files.length > 0) {
+        let uploadCount = 0;
         Array.from(files).forEach((file) => {
+          // Validate file
+          if (!validateFile(file)) return;
+
           const reader = new FileReader();
           reader.onload = (event) => {
+            const now = new Date();
+            const monthNames = [
+              "January", "February", "March", "April", "May", "June",
+              "July", "August", "September", "October", "November", "December"
+            ];
             const newPhoto = {
               src: event.target.result,
-              caption: "Uploaded Memory",
-              date: new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
-              dateSort: new Date(),
+              caption: sweetCaptions[Math.floor(Math.random() * sweetCaptions.length)],
+              date: `${monthNames[now.getMonth()].substring(0, 3)} ${now.getDate()}, ${now.getFullYear()}`,
+              monthYear: `${monthNames[now.getMonth()]} ${now.getFullYear()}`,
+              sortDate: now,
               tags: [],
               note: "",
               isFavorite: false,
               id: `upload-${Date.now()}-${Math.random()}`,
             };
-            
+
             photos.unshift(newPhoto);
             saveData();
             updateStats();
             filterAndSortPhotos();
             renderGallery();
             renderSpotlight();
+            uploadCount++;
+
+            if (uploadCount === 1) {
+              showToast("Photo uploaded successfully!", "success");
+            } else {
+              showToast(`${uploadCount} photos uploaded!`, "success");
+            }
+          };
+          reader.onerror = () => {
+            showToast(`Failed to read file: ${file.name}`, "error");
           };
           reader.readAsDataURL(file);
         });
@@ -816,6 +985,86 @@ const setupEventListeners = () => {
   if (refreshQuote) {
     refreshQuote.addEventListener("click", () => {
       rotateQuote();
+    });
+  }
+
+  // Slideshow button
+  const slideshowBtn = byId("slideshowBtn");
+  if (slideshowBtn) {
+    slideshowBtn.addEventListener("click", toggleSlideshow);
+  }
+
+  // Undo delete button
+  const undoDeleteBtn = byId("undoDeleteBtn");
+  if (undoDeleteBtn) {
+    undoDeleteBtn.addEventListener("click", undoDelete);
+  }
+
+  // Modal navigation buttons
+  const prevPhotoBtn = byId("prevPhoto");
+  const nextPhotoBtn = byId("nextPhoto");
+  if (prevPhotoBtn) {
+    prevPhotoBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      navigateModal(-1);
+    });
+  }
+  if (nextPhotoBtn) {
+    nextPhotoBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      navigateModal(1);
+    });
+  }
+
+  // Keyboard navigation
+  document.addEventListener("keydown", (e) => {
+    const modal = byId("photoModal");
+    const isModalOpen = modal && modal.classList.contains("is-open");
+
+    // Escape key - close modal
+    if (e.key === "Escape" && isModalOpen) {
+      closeModal();
+      return;
+    }
+
+    // Arrow keys - navigate photos in modal
+    if (isModalOpen) {
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        navigateModal(-1);
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        navigateModal(1);
+      }
+    }
+
+    // Spacebar - toggle slideshow (when modal is open)
+    if (e.key === " " && isModalOpen) {
+      e.preventDefault();
+      toggleSlideshow();
+    }
+  });
+
+  // Save note with toast feedback
+  const saveNote = byId("saveNote");
+  if (saveNote) {
+    // Remove existing listener and add new one with toast
+    saveNote.replaceWith(saveNote.cloneNode(true));
+    const newSaveNote = byId("saveNote");
+    newSaveNote.addEventListener("click", () => {
+      const noteInput = byId("modalNote");
+      if (currentModalPhoto && noteInput) {
+        const photoIndex = photos.findIndex((p) => p.id === currentModalPhoto.id);
+        if (photoIndex !== -1) {
+          photos[photoIndex].note = noteInput.value;
+          saveData();
+          closeModal();
+          filterAndSortPhotos();
+          renderSpotlight();
+          renderGallery();
+          showToast("Note saved!", "success");
+        }
+      }
     });
   }
 };
